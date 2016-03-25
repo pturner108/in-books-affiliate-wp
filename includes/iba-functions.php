@@ -6,8 +6,8 @@
  * @return array posts related to the one given
  *
  */
-if (!function_exists('ds1_get_related_posts')) {
-    function ds1_get_related_posts($post_id = null, $args = array()) {
+if (!function_exists('iba_get_related_posts')) {
+    function iba_get_related_posts($post_id = null, $args = array()) {
         $defaults = array(
             'include_ai' => 'true',
             'max' => '50',
@@ -19,8 +19,8 @@ if (!function_exists('ds1_get_related_posts')) {
         $post_id = mdx_default_post_id($post_id);
         $post = get_post($post_id);
 
-        $query = ds1_create_related_query($args, $post, $args['p2p_type']);
-        $query['tax_query'] = ds1_post_query_format_not('dharma-dose');
+        $query = iba_create_related_query($args, $post, $args['p2p_type']);
+        $query['tax_query'] = iba_post_query_format_not('dharma-dose');
 
         $connected = get_posts($query);
         wp_reset_postdata();
@@ -36,7 +36,7 @@ if (!function_exists('ds1_get_related_posts')) {
         if ($args['p2p_type'] == 'related_post_to_book') {
             $post_type = 'book';
         }
-        $ai = ds1_get_related_via_ai($post, $post_type, $args['post_status'], $connected, $remaining);
+        $ai = iba_get_related_via_ai($post, $post_type, $args['post_status'], $connected, $remaining);
         wp_reset_postdata();
 
 
@@ -50,8 +50,8 @@ if (!function_exists('ds1_get_related_posts')) {
  * @param string $format type of format to exclude
  * @return array query excluding format
  */
-if (!function_exists('ds1_post_query_format_not')) {
-    function ds1_post_query_format_not($format) {
+if (!function_exists('iba_post_query_format_not')) {
+    function iba_post_query_format_not($format) {
         return array(
             array(
                 'taxonomy' => 'custom_post_format',
@@ -67,8 +67,8 @@ if (!function_exists('ds1_post_query_format_not')) {
  * @param string|array $format types to include in results
  * @return array query excluding format
  */
-if (!function_exists('ds1_post_query_format_in')) {
-    function ds1_post_query_format_in($format) {
+if (!function_exists('iba_post_query_format_in')) {
+    function iba_post_query_format_in($format) {
         return array(
             array(
                 'taxonomy' => 'custom_post_format',
@@ -80,8 +80,8 @@ if (!function_exists('ds1_post_query_format_in')) {
     }
 }
 
-if (!function_exists('ds1_post_to_id')) {
-    function ds1_post_to_id($post) {
+if (!function_exists('iba_post_to_id')) {
+    function iba_post_to_id($post) {
         return $post->ID;
     }
 }
@@ -95,10 +95,10 @@ if (!function_exists('ds1_post_to_id')) {
  * @param int $max max to retrieve
  * @return array of posts related to this one via AI
  */
-if (!function_exists('ds1_get_related_via_ai')) {
-    function ds1_get_related_via_ai($post, $post_type, $post_status, $connected, $max = 15) {
-        $categories = ds1_get_post_categories($post->ID);
-        $connected_ids = array_map('ds1_post_to_id', $connected);
+if (!function_exists('iba_get_related_via_ai')) {
+    function iba_get_related_via_ai($post, $post_type, $post_status, $connected, $max = 15) {
+        $categories = iba_get_post_categories($post->ID);
+        $connected_ids = array_map('iba_post_to_id', $connected);
         if (empty($categories)) {
             return array();
         }
@@ -110,7 +110,7 @@ if (!function_exists('ds1_get_related_via_ai')) {
 
         while ($i < $max_runs && sizeof($related) < $max) {
             $term_id = $categories[0]->term_id;
-            $related = array_merge($related, ds1_get_posts_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i));
+            $related = array_merge($related, iba_get_posts_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i));
 
             $needed = $max - sizeof($related);
             $i++;
@@ -131,8 +131,8 @@ if (!function_exists('ds1_get_related_via_ai')) {
  * @return array Posts that are related
  * @internal param $meta_value
  */
-if (!function_exists('ds1_get_posts_with_multi_cat')) {
-    function ds1_get_posts_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id, $position = 'any') {
+if (!function_exists('iba_get_posts_with_multi_cat')) {
+    function iba_get_posts_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id, $position = 'any') {
         // exclude this post
         $exclude_post_ids[] = $post->ID;
 
@@ -158,7 +158,7 @@ if (!function_exists('ds1_get_posts_with_multi_cat')) {
             'posts_per_page' => $max,
             'post_status' => $post_status,
             'post__not_in' => $exclude_post_ids,
-            'tax_query' => ds1_post_query_format_not('dharma-dose')
+            'tax_query' => iba_post_query_format_not('dharma-dose')
         ));
         return $related;
     }
@@ -170,8 +170,8 @@ if (!function_exists('ds1_get_posts_with_multi_cat')) {
  * @param $type
  * @return array
  */
-if (!function_exists('ds1_create_related_query')) {
-    function ds1_create_related_query($args, $post, $type) {
+if (!function_exists('iba_create_related_query')) {
+    function iba_create_related_query($args, $post, $type) {
         $query_vars = array(
             'connected_type' => $type,
             'connected_items' => $post,
@@ -189,5 +189,22 @@ if (!function_exists('ds1_create_related_query')) {
 
 
         return $query_vars;
+    }
+}
+
+/**
+ * Returns category array for the given post, or if null the current post
+ * @param null $post_id in if null uses #get_the_ID
+ * @return array|null
+ */
+if (!function_exists('iba_get_post_categories')) {
+    function iba_get_post_categories($post_id = null) {
+        $post_id = mdx_default_post_id($post_id);
+
+        if (class_exists('INBM_Multiple_Category_Chooser')) {
+            return INBM_Multiple_Category_Chooser::get_categories($post_id);
+        }
+
+        return get_the_category($post_id);
     }
 }
