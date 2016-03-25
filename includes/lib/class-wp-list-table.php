@@ -1,6 +1,8 @@
 <?php
+namespace INBA;
+
 /**
- * Administration API: INBA_WP_List_Table class
+ * Administration API: WP_List_Table class
  *
  * @package WordPress
  * @subpackage List_Table
@@ -13,7 +15,7 @@
  * @since 3.1.0
  * @access private
  */
-class INBA_WP_List_Table {
+class WP_List_Table {
 
     /**
      * The current list of items.
@@ -250,19 +252,19 @@ class INBA_WP_List_Table {
      * @abstract
      */
     public function ajax_user_can() {
-        die( 'function INBA_WP_List_Table::ajax_user_can() must be over-ridden in a sub-class.' );
+        die( 'function WP_List_Table::ajax_user_can() must be over-ridden in a sub-class.' );
     }
 
     /**
      * Prepares the list of items for displaying.
-     * @uses INBA_WP_List_Table::set_pagination_args()
+     * @uses WP_List_Table::set_pagination_args()
      *
      * @since 3.1.0
      * @access public
      * @abstract
      */
     public function prepare_items($related) {
-        die( 'function INBA_WP_List_Table::prepare_items() must be over-ridden in a sub-class.' );
+        die( 'function WP_List_Table::prepare_items() must be over-ridden in a sub-class.' );
     }
 
     /**
@@ -870,7 +872,7 @@ class INBA_WP_List_Table {
      * @return array
      */
     public function get_columns() {
-        die( 'function INBA_WP_List_Table::get_columns() must be over-ridden in a sub-class.' );
+        die( 'function WP_List_Table::get_columns() must be over-ridden in a sub-class.' );
     }
 
     /**
@@ -921,7 +923,7 @@ class INBA_WP_List_Table {
     }
 
     /**
-     * Public wrapper for INBA_WP_List_Table::get_default_primary_column_name().
+     * Public wrapper for WP_List_Table::get_default_primary_column_name().
      *
      * @since 4.4.0
      * @access public
@@ -947,7 +949,7 @@ class INBA_WP_List_Table {
         // If the primary column doesn't exist fall back to the
         // first non-checkbox column.
         if ( ! isset( $columns[ $default ] ) ) {
-            $default = INBA_WP_List_Table::get_default_primary_column_name();
+            $default = WP_List_Table::get_default_primary_column_name();
         }
 
         /**

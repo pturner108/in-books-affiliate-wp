@@ -8,42 +8,49 @@
  * License: GPLv2 or later
  */
 
+namespace INBA;
+
 if (!defined("ABSPATH")) {
     exit;
 }
 
-define('INBA_DIR', plugin_dir_path(__FILE__));
-define('INBA_INC_DIR', trailingslashit(INBA_DIR . 'includes'));
-define('INBA_LIB_DIR', trailingslashit(INBA_INC_DIR . 'lib'));
+define('INBA\DIR', plugin_dir_path(__FILE__));
+define('INBA\INC_DIR', trailingslashit(DIR . 'includes'));
+define('INBA\LIB_DIR', trailingslashit(INC_DIR . 'lib'));
 
-require_once INBA_INC_DIR . 'class-inba-related-list-table.php';
-require_once INBA_INC_DIR . 'class-inba-metaboxes.php';
-require_once INBA_INC_DIR . 'functions.php';
+/** @noinspection PhpIncludeInspection */
+require_once INC_DIR . 'class-related-list-table.php';
+/** @noinspection PhpIncludeInspection */
+require_once INC_DIR . 'class-metaboxes.php';
+/** @noinspection PhpIncludeInspection */
+require_once INC_DIR . 'functions.php';
 
 if (!class_exists('WC_Dependencies')) {
-    require_once INBA_DIR . 'woo-includes/class-wc-dependencies.php';
+    /** @noinspection PhpIncludeInspection */
+    require_once DIR . 'woo-includes/class-wc-dependencies.php';
 }
 
 /**
  * WooCommerce is required for this plugin
  */
-if (!WC_Dependencies::woocommerce_active_check()) {
+/** @noinspection PhpUndefinedClassInspection */
+if (!\WC_Dependencies::woocommerce_active_check()) {
     return;
 }
 
 /**
- * Class INBA
+ * Class INBA\Main
  *
  * @since 1.0.0
  */
-final class INBA {
+final class Main {
     protected static $_instance = null;
 
     protected function __construct() {
         /**
          * Keep engine flowing
          */
-        INBA_Metaboxes::init();
+        Metaboxes::init();
     }
 
     public static function instance() {
@@ -54,4 +61,4 @@ final class INBA {
     }
 }
 
-INBA::instance();
+Main::instance();

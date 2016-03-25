@@ -1,12 +1,14 @@
 <?php
+namespace INBA;
+
 /**
- * Class INBA_Related_List_Table
+ * Class Related_List_Table
  *
  * @since 1.0.0
  */
-require_once INBA_LIB_DIR . 'class-inba-wp-list-table.php';
+require_once LIB_DIR . 'class-wp-list-table.php';
 
-class INBA_Related_List_Table extends INBA_WP_List_Table {
+class Related_List_Table extends WP_List_Table {
 
     function __construct() {
         parent::__construct(array(

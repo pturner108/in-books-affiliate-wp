@@ -1,10 +1,12 @@
 <?php
+namespace INBA;
+
 /**
  * Class INBA_Metaboxes
  *
  * @since 1.0.0
  */
-class INBA_Metaboxes {
+class Metaboxes {
     public static function init() {
         if (is_admin()) {
             add_action('add_meta_boxes', array(__CLASS__, 'meta_box_related_init'));
@@ -39,12 +41,12 @@ class INBA_Metaboxes {
 
         echo '<h2>Published Connections</h2>';
         echo '<h3>'. __('Direct Connections') . '</h3>';
-        $table = new INBA_Related_List_Table();
+        $table = new Related_List_Table();
         $table->prepare_items($related['direct']);
         $table->display();
 
         echo '<h3>'. __('Via Categories') . '</h3>';
-        $table = new INBA_Related_List_Table();
+        $table = new Related_List_Table();
         $table->prepare_items($related['ai']);
         $table->display();
 
@@ -52,12 +54,12 @@ class INBA_Metaboxes {
 
         echo '<h2>All Connections</h2>';
         echo '<h3>'. __('Direct Connections') . '</h3>';
-        $table = new INBA_Related_List_Table();
+        $table = new Related_List_Table();
         $table->prepare_items($related['direct']);
         $table->display();
 
         echo '<h3>'. __('Via Categories') . '</h3>';
-        $table = new INBA_Related_List_Table();
+        $table = new Related_List_Table();
         $table->prepare_items($related['ai']);
         $table->display();
     }
