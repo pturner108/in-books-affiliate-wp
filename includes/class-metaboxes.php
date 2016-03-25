@@ -1,8 +1,8 @@
 <?php
-namespace INBA;
+namespace IBA;
 
 /**
- * Class INBA_Metaboxes
+ * Class IBA_Metaboxes
  *
  * @since 1.0.0
  */

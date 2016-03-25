@@ -1,5 +1,5 @@
 <?php
-namespace INBA;
+namespace IBA;
 
 /**
  * Administration API: WP_List_Table class

@@ -8,15 +8,15 @@
  * License: GPLv2 or later
  */
 
-namespace INBA;
+namespace IBA;
 
 if (!defined("ABSPATH")) {
     exit;
 }
 
-define('INBA\DIR', plugin_dir_path(__FILE__));
-define('INBA\INC_DIR', trailingslashit(DIR . 'includes'));
-define('INBA\LIB_DIR', trailingslashit(INC_DIR . 'lib'));
+define('IBA\DIR', plugin_dir_path(__FILE__));
+define('IBA\INC_DIR', trailingslashit(DIR . 'includes'));
+define('IBA\LIB_DIR', trailingslashit(INC_DIR . 'lib'));
 
 /** @noinspection PhpIncludeInspection */
 require_once INC_DIR . 'class-related-list-table.php';
@@ -39,7 +39,7 @@ if (!\WC_Dependencies::woocommerce_active_check()) {
 }
 
 /**
- * Class INBA\Main
+ * Class IBA\Main
  *
  * @since 1.0.0
  */

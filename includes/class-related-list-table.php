@@ -1,5 +1,5 @@
 <?php
-namespace INBA;
+namespace IBA;
 
 /**
  * Class Related_List_Table
