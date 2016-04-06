@@ -18,28 +18,24 @@ define('IBA\DIR', plugin_dir_path(__FILE__));
 define('IBA\INC_DIR', trailingslashit(DIR . 'includes'));
 define('IBA\LIB_DIR', trailingslashit(INC_DIR . 'lib'));
 
-/** @noinspection PhpIncludeInspection */
 require_once INC_DIR . 'class-related-list-table.php';
-/** @noinspection PhpIncludeInspection */
 require_once INC_DIR . 'class-metaboxes.php';
-/** @noinspection PhpIncludeInspection */
+require_once INC_DIR . 'class-acf.php';
 require_once INC_DIR . 'functions.php';
 
 if (!class_exists('WC_Dependencies')) {
-    /** @noinspection PhpIncludeInspection */
     require_once DIR . 'woo-includes/class-wc-dependencies.php';
 }
 
 /**
  * WooCommerce is required for this plugin
  */
-/** @noinspection PhpUndefinedClassInspection */
 if (!\WC_Dependencies::woocommerce_active_check()) {
     return;
 }
 
 /**
- * Class IBA\Main
+ * Class Main
  *
  * @since 1.0.0
  */
@@ -50,11 +46,18 @@ final class Main {
         /**
          * Keep engine flowing
          */
+        $acf = new ACF(array(
+            'acf_core_path' => LIB_DIR . 'advanced-custom-fields-pro/',
+            'acf_core_path_url' => plugin_dir_url(__FILE__) . 'lib/advanced-custom-fields-pro/'
+        ));
+        $fields = include_once INC_DIR . 'data/acf-data.php';
+        $acf->set_fields($fields)->register_fields();
+
         Metaboxes::init();
     }
 
     public static function instance() {
-        if (is_null(self::$_instance )) {
+        if (is_null(self::$_instance)) {
             self::$_instance = new self();
         }
         return self::$_instance;

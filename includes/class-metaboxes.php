@@ -2,7 +2,7 @@
 namespace IBA;
 
 /**
- * Class IBA_Metaboxes
+ * Class Metaboxes
  *
  * @since 1.0.0
  */
