@@ -16,10 +16,12 @@ if (!defined("ABSPATH")) {
 
 define('IBA\DIR', plugin_dir_path(__FILE__));
 define('IBA\INC_DIR', trailingslashit(DIR . 'includes'));
+define('IBA\TEMPLATE_DIR', trailingslashit(DIR . 'templates'));
 define('IBA\LIB_DIR', trailingslashit(INC_DIR . 'lib'));
 
 require_once INC_DIR . 'class-related-list-table.php';
 require_once INC_DIR . 'class-metaboxes.php';
+require_once INC_DIR . 'class-shortcodes.php';
 require_once INC_DIR . 'class-acf.php';
 require_once INC_DIR . 'functions.php';
 
@@ -54,6 +56,7 @@ final class Main {
         $acf->set_fields($fields)->register_fields();
 
         Metaboxes::init();
+        Shortcodes::init();
     }
 
     public static function instance() {
