@@ -4,7 +4,7 @@
  * Version: 1.0.0
  * Author: Joshua Jacobs, josh@mandala-designs.com, rahilwazir
  * Author URI: http://dharmaspring.com
- * Text Domain: inba
+ * Text Domain: iba
  * License: GPLv2 or later
  */
 
