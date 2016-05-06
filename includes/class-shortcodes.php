@@ -35,8 +35,6 @@ class Shortcodes {
             'header' => ''
         ), $atts);
 
-        $a['category'] = explode(',', $a['category']);
-
         self::$atts_references['product_carousel'] = $a;
 
         include_once TEMPLATE_DIR . 'carousel-slider.php';
