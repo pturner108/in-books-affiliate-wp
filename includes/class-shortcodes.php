@@ -37,6 +37,6 @@ class Shortcodes {
 
         self::$atts_references['product_carousel'] = $a;
 
-        include_once TEMPLATE_DIR . 'carousel-slider.php';
+        include TEMPLATE_DIR . 'carousel-slider.php';
     }
 }

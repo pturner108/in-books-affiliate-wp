@@ -1,93 +1,87 @@
-<div class="gray-bar">
-    <div class="container">
-        <span class="title"><?php echo self::$atts_references['product_carousel']['header']; ?></span>
-        <a class="show-all" href="<?php echo get_permalink(wc_get_page_id('shop')); ?>">SHOP ALL BOOKS</a>
-    </div>
-</div>
-
-<div class="bottom-slider">
-    <div class="container">
-        <?php
-        $args = array(
-            'category_name' => self::$atts_references['product_carousel']['category'],
-            'posts_per_page' => self::$atts_references['product_carousel']['max'],
-            'post_type' => 'product',
-            'orderby' => 'date',
-            'order' => 'DESC'
-        );
-        $carousel_query = new WP_Query($args);
-        ?>
-        <?php if (1) { //if ($carousel_query->have_posts()) { $carousel_query->the_post(); ?>
-        <div class="cycle-slideshow" data-cycle-fx="carousel" data-cycle-timeout="0"
-             data-cycle-carousel-visible="5" data-cycle-carousel-fluid="true" data-cycle-slides="> div"
-             data-cycle-next="#next"
-             data-cycle-prev="#prev">
-            <?php /* while($carousel_query->have_posts()) { ?>
-            <div class="book-slide">
-                <a href="<?php the_permalink(); ?>">
-                    <?php the_post_thumbnail(); ?>
-                </a>
-                <a href="javascript:;"><img src="<?php bloginfo('template_directory'); ?>/img/book2.png" alt="Book"></a>
-                <div class="slide-detail">
-                    <h5><a href="javascript:;"><?php the_title(); ?></a></h5>
-                    <span>Ryuichi Abe, Peter Hasket</span>
-                    <span class="book-price">Paperback: $19.95</span>
-                </div>
-            </div>
-            <?php } */ ?>
-            <div class="book-slide">
-                <a href="javascript:;"><img src="<?php bloginfo('template_directory'); ?>/img/book2.png" alt="Book"></a>
-                <div class="slide-detail">
-                    <h5><a href="javascript:;"><?php the_title(); ?></a></h5>
-                    <span>Ryuichi Abe, Peter Hasket</span>
-                    <span class="book-price">Paperback: $19.95</span>
-                </div>
-            </div>
-            <div class="book-slide">
-                <a href="javascript:;"><img src="<?php bloginfo('template_directory'); ?>/img/book2.png" alt="Book"></a>
-                <div class="slide-detail">
-                    <h5><a href="javascript:;">Fool Zen Master Ryokan</a></h5>
-                    <span>Ryuichi Abe, Peter Hasket</span>
-                    <span class="book-price">Paperback: $19.95</span>
-                </div>
-            </div>
-            <div class="book-slide">
-                <a href="javascript:;"><img src="<?php bloginfo('template_directory'); ?>/img/book3.png" alt="Book"></a>
-                <div class="slide-detail">
-                    <h5><a href="javascript:;">Great Fool Zen Master Ryokan: Poems</a></h5>
-                    <span>Ryuichi Abe, Peter Hasket</span>
-                    <span class="book-price">Paperback: $19.95</span>
-                </div>
-            </div>
-            <div class="book-slide">
-                <a href="javascript:;"><img src="<?php bloginfo('template_directory'); ?>/img/book4.png" alt="Book"></a>
-                <div class="slide-detail">
-                    <h5><a href="javascript:;">Poems Poems Poems Poems</a></h5>
-                    <span>Ryuichi Abe, Peter Hasket</span>
-                    <span class="book-price">Paperback: $19.95</span>
-                </div>
-            </div>
-            <div class="book-slide">
-                <a href="javascript:;"><img src="<?php bloginfo('template_directory'); ?>/img/book5.png" alt="Book"></a>
-                <div class="slide-detail">
-                    <h5><a href="javascript:;">Great Fool Zen Master Ryokan: Poems</a></h5>
-                    <span>Ryuichi Abe, Peter Hasket</span>
-                    <span class="book-price">Paperback: $19.95</span>
-                </div>
-            </div>
-        </div>
-
-        <div class=cycle-slideshow-pager>
-            <a href="#" id="prev" class="fa fa-angle-left"></a>
-            <a href="#" id="next" class="fa fa-angle-right"></a>
-        </div>
-        <?php } else { ?>
-        <h2 style="text-align: center;">Nothing to be seen here</h2>
-        <?php } ?>
-    </div>
-</div>
-
 <?php
-/**
- * Options: self::$atts_references['product_carousel'];
- */
+if(self::$atts_references['product_carousel']['skin'] != 'boxed') {
+    return;
+}
+$args = array(
+    'tax_query' => array(
+        array(
+            'taxonomy' => 'product_cat',
+            'field'    => 'slug',
+            'terms'    => self::$atts_references['product_carousel']['category'],
+        ),
+    ),
+    'posts_per_page' => self::$atts_references['product_carousel']['max'],
+    'post_type' => 'product',
+    'orderby' => 'date',
+    'order' => 'DESC',
+);
+$carousel_query = new WP_Query($args);
+if($carousel_query->have_posts()) {
+    ?>
+    <div class="heading-with-bg <?php echo self::$atts_references['product_carousel']['skin']; ?> ">
+        <?php
+        if(self::$atts_references['product_carousel']['header'] != ''){
+            $carousel_title = self::$atts_references['product_carousel']['header'];
+        }
+        else {
+            $carousel_title = ucwords(str_replace('-', ' ', self::$atts_references['product_carousel']['category']));
+        }
+        echo '<h2>' .$carousel_title . '</h2>';
+        $category = get_term_by('slug', self::$atts_references['product_carousel']['category'], 'product_cat');
+        $cat_id = $category->term_id;;
+        ?>
+        <a class="view-all" href="<?php echo get_category_link($cat_id); ?>"><?php echo __('VIEW ALL', 'iba'); ?></a>
+    </div>
+    <div class="bottom-slider">
+        <div class="container">
+            <div class="product-book-slider landing-page-slider">
+                <?php
+                $unique_prev = iba_random_unique_id();
+                $unique_next = iba_random_unique_id();
+                ?>
+                <div class="cycle-slideshow" data-cycle-fx="carousel" data-cycle-timeout="0"
+                     data-cycle-carousel-visible="5" data-cycle-carousel-fluid="true" data-cycle-slides="> div"
+                     data-cycle-next="#next<?php echo $unique_next; ?>"
+                     data-cycle-prev="#prev<?php echo $unique_prev; ?>">
+                    <?php
+                    while($carousel_query->have_posts()) {
+                        $carousel_query->the_post();
+                        $product_ = wc_get_product(get_the_ID());
+                        $paperback_price = null;
+                        $paper_type = 'Price';
+                        if($product_->is_type('variable')) {
+                            $variation_ids = $product_->get_children();
+                            foreach($variation_ids as $var_id) {
+                                $va = wc_get_product_variation_attributes($var_id);
+                                if($va['attribute_pa_cover-type'] == 'paperback') {
+                                    $paper_type = $va['attribute_pa_cover-type'];
+                                    $current_product = new WC_Product_Variation($var_id);
+                                    $paperback_price = $current_product->get_price_html();
+                                }
+                            }
+                        }
+                        ?>
+                        <div class="book-slide">
+                            <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a>
+                            <div class="slide-detail">
+                                <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+                                <span>Ryuichi Abe, Peter Hasket</span>
+                                <span class="book-price"><?php echo ucwords($paper_type); ?>: <?php echo (is_null($paperback_price) ? $product_->get_price_html() : $paperback_price); ?></span>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <div class=cycle-slideshow-pager>
+                    <a href="#" id="prev<?php echo $unique_prev; ?>" class="fa fa-angle-left"></a>
+                    <a href="#" id="next<?php echo $unique_next; ?>" class="fa fa-angle-right"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+else {
+    echo '<h2 style="text-align: center;">'.__('Nothing to be seen here', 'iba').'</h2>';
+}

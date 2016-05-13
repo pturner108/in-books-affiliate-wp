@@ -17,3 +17,17 @@ function return_include_once($template)
     include_once $template;
     return ob_get_clean();
 }
+
+/**
+ * Generates unique id
+ */
+function iba_random_unique_id() {
+    $alphabet = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    $pass = array();
+    $alphaLength = strlen($alphabet) - 1;
+    for ($i = 0; $i < 4; $i++) {
+        $n = rand(0, $alphaLength);
+        $pass[] = $alphabet[$n];
+    }
+    return implode($pass);
+}
