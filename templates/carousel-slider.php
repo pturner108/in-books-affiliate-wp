@@ -61,12 +61,14 @@ if($carousel_query->have_posts()) {
                             }
                         }
                         ?>
-                        <div class="book-slide">
-                            <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a>
-                            <div class="slide-detail">
-                                <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-                                <span>Ryuichi Abe, Peter Hasket</span>
-                                <span class="book-price"><?php echo ucwords($paper_type); ?>: <?php echo (is_null($paperback_price) ? $product_->get_price_html() : $paperback_price); ?></span>
+                        <div class="product-book-slide">
+                            <div class="book-detail">
+                                <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a>
+                                <div class="slide-detail">
+                                    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+                                    <span class="writer-name">Ryuichi Abe, Peter Hasket</span>
+                                    <span class="book-price"><?php echo ucwords($paper_type); ?>: <?php echo (is_null($paperback_price) ? $product_->get_price_html() : $paperback_price); ?></span>
+                                </div>
                             </div>
                         </div>
                         <?php
