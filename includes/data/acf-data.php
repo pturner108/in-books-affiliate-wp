@@ -8,7 +8,7 @@ return array(
             array(
                 'key' => 'field_54efd4447ae32',
                 'label' => 'inbooks.io API Token',
-                'name' => 'inbm_spree_api_token',
+                'name' => 'iba_spree_api_token',
                 'type' => 'text',
                 'default_value' => '',
                 'placeholder' => '',
@@ -21,7 +21,7 @@ return array(
             array(
                 'key' => 'field_54efd5121a59a',
                 'label' => 'inbooks.io URL',
-                'name' => 'inbm_spree_store_url',
+                'name' => 'iba_spree_store_url',
                 'type' => 'text',
                 'default_value' => '',
                 'placeholder' => '',
@@ -34,7 +34,7 @@ return array(
             array(
                 'key' => 'field_54f9119e78460',
                 'label' => 'Record per page of sync',
-                'name' => 'inbm_spree_sync_per_page',
+                'name' => 'iba_spree_sync_per_page',
                 'type' => 'text',
                 'default_value' => '',
                 'placeholder' => '',

@@ -47,7 +47,7 @@ class Related_List_Table extends WP_List_Table {
             $item['id'] = $post_id;
             $item['title'] = sprintf('<a href="%s">%s</a>', get_the_permalink($post), get_the_title($post));
             $item['format'] = $format->name;
-            $item['categories'] = implode(', ', get_post_meta($post_id, '_inbm_multi_cat'));
+            $item['categories'] = implode(', ', get_post_meta($post_id, '_ds1_multi_cat'));
 
             $item['status'] = get_post_status($post_id);
 

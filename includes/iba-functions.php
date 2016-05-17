@@ -152,7 +152,7 @@ if (!function_exists('iba_get_posts_with_multi_cat')) {
         $related = get_posts(array(
             'post_type' => $post_type,
             'post__note_in' => array($post->ID),
-            'meta_key' => '_inbm_multi_cat',
+            'meta_key' => '_ds1_multi_cat',
             'meta_value' => $meta_value,
             'meta_compare' => 'REGEXP',
             'posts_per_page' => $max,
