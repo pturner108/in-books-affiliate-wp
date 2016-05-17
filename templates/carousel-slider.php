@@ -16,74 +16,71 @@ $args = array(
     'order' => 'DESC',
 );
 $carousel_query = new WP_Query($args);
-if($carousel_query->have_posts()) {
+if(!$carousel_query->have_posts()) {
+    return '';
+}
+?>
+<div class="heading-with-bg <?php echo self::$atts_references['product_carousel']['skin']; ?> ">
+    <?php
+    if(self::$atts_references['product_carousel']['header'] != ''){
+        $carousel_title = self::$atts_references['product_carousel']['header'];
+    }
+    else {
+        $carousel_title = ucwords(str_replace('-', ' ', self::$atts_references['product_carousel']['category']));
+    }
+    echo '<h2>' .$carousel_title . '</h2>';
+    $category = get_term_by('slug', self::$atts_references['product_carousel']['category'], 'product_cat');
+    $cat_id = $category->term_id;;
     ?>
-    <div class="heading-with-bg <?php echo self::$atts_references['product_carousel']['skin']; ?> ">
-        <?php
-        if(self::$atts_references['product_carousel']['header'] != ''){
-            $carousel_title = self::$atts_references['product_carousel']['header'];
-        }
-        else {
-            $carousel_title = ucwords(str_replace('-', ' ', self::$atts_references['product_carousel']['category']));
-        }
-        echo '<h2>' .$carousel_title . '</h2>';
-        $category = get_term_by('slug', self::$atts_references['product_carousel']['category'], 'product_cat');
-        $cat_id = $category->term_id;;
-        ?>
-        <a class="view-all" href="<?php echo get_category_link($cat_id); ?>"><?php echo __('VIEW ALL', 'iba'); ?></a>
-    </div>
-    <div class="bottom-slider">
-        <div class="container">
-            <div class="product-book-slider landing-page-slider">
+    <a class="view-all" href="<?php echo get_category_link($cat_id); ?>"><?php echo __('VIEW ALL', 'iba'); ?></a>
+</div>
+<div class="bottom-slider">
+    <div class="container">
+        <div class="product-book-slider landing-page-slider">
+            <?php
+            $unique_prev = iba_random_unique_id();
+            $unique_next = iba_random_unique_id();
+            ?>
+            <div class="cycle-slideshow" data-cycle-fx="carousel" data-cycle-timeout="0"
+                 data-cycle-carousel-visible="5" data-cycle-carousel-fluid="true" data-cycle-slides="> div"
+                 data-cycle-next="#next<?php echo $unique_next; ?>"
+                 data-cycle-prev="#prev<?php echo $unique_prev; ?>">
                 <?php
-                $unique_prev = iba_random_unique_id();
-                $unique_next = iba_random_unique_id();
-                ?>
-                <div class="cycle-slideshow" data-cycle-fx="carousel" data-cycle-timeout="0"
-                     data-cycle-carousel-visible="5" data-cycle-carousel-fluid="true" data-cycle-slides="> div"
-                     data-cycle-next="#next<?php echo $unique_next; ?>"
-                     data-cycle-prev="#prev<?php echo $unique_prev; ?>">
-                    <?php
-                    while($carousel_query->have_posts()) {
-                        $carousel_query->the_post();
-                        $product_ = wc_get_product(get_the_ID());
-                        $paperback_price = null;
-                        $paper_type = 'Price';
-                        if($product_->is_type('variable')) {
-                            $variation_ids = $product_->get_children();
-                            foreach($variation_ids as $var_id) {
-                                $va = wc_get_product_variation_attributes($var_id);
-                                if($va['attribute_pa_cover-type'] == 'paperback') {
-                                    $paper_type = $va['attribute_pa_cover-type'];
-                                    $current_product = new WC_Product_Variation($var_id);
-                                    $paperback_price = $current_product->get_price_html();
-                                }
+                while($carousel_query->have_posts()) {
+                    $carousel_query->the_post();
+                    $product_ = wc_get_product(get_the_ID());
+                    $paperback_price = null;
+                    $paper_type = 'Price';
+                    if($product_->is_type('variable')) {
+                        $variation_ids = $product_->get_children();
+                        foreach($variation_ids as $var_id) {
+                            $va = wc_get_product_variation_attributes($var_id);
+                            if($va['attribute_pa_cover-type'] == 'paperback') {
+                                $paper_type = $va['attribute_pa_cover-type'];
+                                $current_product = new WC_Product_Variation($var_id);
+                                $paperback_price = $current_product->get_price_html();
                             }
                         }
-                        ?>
-                        <div class="product-book-slide">
-                            <div class="book-detail">
-                                <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a>
-                                <div class="slide-detail">
-                                    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-                                    <span class="writer-name">Ryuichi Abe, Peter Hasket</span>
-                                    <span class="book-price"><?php echo ucwords($paper_type); ?>: <?php echo (is_null($paperback_price) ? $product_->get_price_html() : $paperback_price); ?></span>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
                     }
                     ?>
-                </div>
-                <div class=cycle-slideshow-pager>
-                    <a href="#" id="prev<?php echo $unique_prev; ?>" class="fa fa-angle-left"></a>
-                    <a href="#" id="next<?php echo $unique_next; ?>" class="fa fa-angle-right"></a>
-                </div>
+                    <div class="product-book-slide">
+                        <div class="book-detail">
+                            <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail(); ?></a>
+                            <div class="slide-detail">
+                                <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+                                <span class="writer-name">Ryuichi Abe, Peter Hasket</span>
+                                <span class="book-price"><?php echo ucwords($paper_type); ?>: <?php echo (is_null($paperback_price) ? $product_->get_price_html() : $paperback_price); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class=cycle-slideshow-pager>
+                <a href="#" id="prev<?php echo $unique_prev; ?>" class="fa fa-angle-left"></a>
+                <a href="#" id="next<?php echo $unique_next; ?>" class="fa fa-angle-right"></a>
             </div>
         </div>
     </div>
-    <?php
-}
-else {
-    echo '<h2 style="text-align: center;">'.__('Nothing to be seen here', 'iba').'</h2>';
-}
+</div>
