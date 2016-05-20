@@ -75,22 +75,6 @@ class Metaboxes {
         /**
          * Connection types for products post type
          */
-        
-        // The featured product connection
-        p2p_register_connection_type(array(
-            'name' => 'featured_product',
-            'from' => 'post',
-            'to' => 'product',
-            'title' => array('from' => 'Featured Product', 'to' => 'Related Article'),
-            'from_labels' => array(
-                'create' => __('Assign Featured Article')
-            ),
-            'to_labels' => array(
-                'create' => __('Assign Featured Product')
-            ),
-            'admin_dropdown' => 'any',
-            'from_query_vars' => array('post_status' => 'any')
-        ));
 
         // Product to product connection
         p2p_register_connection_type(array(
@@ -106,17 +90,5 @@ class Metaboxes {
             'from_query_vars' => array('post_status' => 'any')
         ));
 
-        // Post to product connection
-        p2p_register_connection_type(array(
-            'name' => 'related_post_to_product',
-            'from' => 'post',
-            'to' => 'product',
-            'title' => array('from' => 'Related Products', 'to' => 'Related Articles'),
-
-            'to_labels' => array(
-                'create' => __('Assign Related Products')
-            ),
-            'from_query_vars' => array('post_status' => 'any')
-        ));
     }
 }
