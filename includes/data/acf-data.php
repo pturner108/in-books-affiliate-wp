@@ -145,7 +145,7 @@ return array(
             ),
         ),
         'options' => array(
-            'position' => 'normal',
+            'position' => 'side',
             'layout' => 'default',
             'hide_on_screen' => array(),
         ),
@@ -217,7 +217,7 @@ return array(
             ),
         ),
         'options' => array(
-            'position' => 'normal',
+            'position' => 'side',
             'layout' => 'default',
             'hide_on_screen' => array(),
         ),
