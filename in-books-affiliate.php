@@ -23,6 +23,7 @@ require_once INC_DIR . 'class-related-list-table.php';
 require_once INC_DIR . 'class-metaboxes.php';
 require_once INC_DIR . 'class-shortcodes.php';
 require_once INC_DIR . 'class-acf.php';
+require_once INC_DIR . 'class-post-types.php';
 require_once INC_DIR . 'functions.php';
 
 if (!class_exists('WC_Dependencies')) {
