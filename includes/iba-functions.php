@@ -33,7 +33,7 @@ if (!function_exists('iba_get_related_posts')) {
         // get the ai posts
         $remaining = $args['max'] - sizeof($connected);
         $post_type = 'post';
-        if ($args['p2p_type'] == 'related_post_to_product') {
+        if ($args['p2p_type'] == 'related_post_to_product' || $args['p2p_type'] == 'related_product_to_product') {
             $post_type = 'product';
         }
         $ai = iba_get_related_via_ai($post, $post_type, $args['post_status'], $connected, $remaining);
