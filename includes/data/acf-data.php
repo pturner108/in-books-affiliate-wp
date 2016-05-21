@@ -235,7 +235,7 @@ return array(
                 'type' => 'text'
             ),
             array(
-                'key' => 'iba_contributor_1_display_name',
+                'key' => 'iba_contributor_1_',
                 'label' => 'Contributor 1 Display Name',
                 'name' => 'iba_contributor_1_display_name',
                 'type' => 'text'
@@ -461,5 +461,45 @@ return array(
             'hide_on_screen' => array(),
         ),
         'menu_order' => 3,
+    ),
+    // Contributor Taxonomy, contributors
+    array (
+        'key' => 'acf_contributor-taxonomy',
+        'title' => '',
+        'fields' => array (
+            array(
+                'key' => 'iba_contributor_import_id',
+                'label' => 'Import ID',
+                'name' => 'iba_contributor_import_id',
+                'type' => 'text'
+            ),
+            array(
+                'key' => 'iba_contributor_display_name',
+                'label' => 'Display Name',
+                'name' => 'iba_contributor_display_name',
+                'type' => 'text'
+            ),
+            array(
+                'key' => 'iba_contributor_photo',
+                'label' => 'Photo',
+                'name' => 'iba_contributor_photo',
+                'type' => 'image',
+                'column_width' => '',
+                'return_format' => 'array',
+                'preview_size' => 'thumbnail',
+                'library' => 'all'
+            )
+        ),
+        'location' => array (
+            array (
+                array (
+                    'param' => 'taxonomy',
+                    'operator' => '==',
+                    'value' => 'contributor',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'active' => 1
     )
 );
