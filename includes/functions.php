@@ -68,3 +68,10 @@ add_action('acf/save_post', function($post_id) {
 
     wp_set_post_categories($post_id, $total_cat);
 }, 1, 2);
+
+/**
+ * Remove post categories metabox from product screen
+ */
+add_action('admin_menu', function() {
+    remove_meta_box('categorydiv', 'product', 'side');
+});
