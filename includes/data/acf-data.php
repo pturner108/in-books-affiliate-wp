@@ -494,14 +494,6 @@ return array(
                 'type' => 'text'
             ),
             array(
-                'key' => 'iba_contributor_biography',
-                'label' => 'Biography',
-                'name' => 'iba_contributor_biography',
-                'type' => 'wysiwyg',
-                'toolbar' => 'full',
-                'media_upload' => 0
-            ),
-            array(
                 'key' => 'iba_contributor_photo',
                 'label' => 'Photo',
                 'name' => 'iba_contributor_photo',
