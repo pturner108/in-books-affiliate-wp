@@ -75,3 +75,11 @@ add_action('acf/save_post', function($post_id) {
 add_action('admin_menu', function() {
     remove_meta_box('categorydiv', 'product', 'side');
 });
+
+/**
+ * Remove product categories from screen options
+ */
+add_action('manage_product_posts_columns', function($columns) {
+    unset($columns['product_cat']);
+    return $columns;
+}, 11);
