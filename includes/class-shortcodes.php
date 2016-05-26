@@ -21,21 +21,25 @@ class Shortcodes {
      * [iba_product_carousel category="cat1,cat2" max="20" skin="boxed", header="title"]
      * @param $atts array
      *      $atts['category'] string. Optional, single category slug or comma separated
+     *      $atts['tag'] string. Optional, single product_tag slug or comma separated
      *      $atts['max'] string|Int. Optional, Max number of product slides
      *      $atts['skin'] string. Optional, Templates to use
      *      $atts['header'] string. Optional, Defaults to category name
+     *      $atts['see_more_caption'] string. Optional, Defaults to 'View All' will point to target category page
      *
      * @return string;
      */
     public static function product_carousel($atts) {
-        $a = shortcode_atts(array(
-            'category' => 'featured-product',
+        $props = shortcode_atts(array(
+            'category' => '',
+            'tag' => '',
             'max' => 20,
             'skin' => 'boxed',
-            'header' => ''
+            'header' => '',
+            'see_more_caption' => 'View All'
         ), $atts);
 
-        self::$atts_references['product_carousel'] = $a;
+        self::$atts_references['product_carousel'] = $props;
 
         include TEMPLATE_DIR . 'carousel-slider.php';
     }
