@@ -208,3 +208,13 @@ if (!function_exists('iba_get_post_categories')) {
         return get_the_category($post_id);
     }
 }
+
+/**
+ * Retrieve list of all shortcode with their atts
+ *
+ * @param $shortcode string
+ * @return array
+ */
+function iba_get_shortcodes_atts($shortcode) {
+    return \IBA\Shortcodes::get_atts($shortcode);
+}

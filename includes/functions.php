@@ -19,6 +19,20 @@ function return_include_once($template)
 }
 
 /**
+ * Dirty way of returning include contents
+ * Same as return_include_once() instead it calls `include`
+ *
+ * @param string $template
+ * @return string
+ */
+function return_include($template)
+{
+    ob_start();
+    include $template;
+    return ob_get_clean();
+}
+
+/**
  * Generates unique id
  *
  * @return string
