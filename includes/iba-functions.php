@@ -218,3 +218,30 @@ if (!function_exists('iba_get_post_categories')) {
 function iba_get_shortcodes_atts($shortcode) {
     return \IBA\Shortcodes::get_atts($shortcode);
 }
+
+/**
+ * Retrieve ACF Contributor fields for single product
+ *
+ * @param $post_id mixed
+ * @return array
+ */
+function iba_get_product_contributors($post_id) {
+    $authors = array();
+
+    for ($loopnum=1; $loopnum < 4; $loopnum++) {
+        $contributer_id = get_field("iba_contributor_".$loopnum."_id", $post_id);
+        if ($contributer_id) {
+            $term_obj = get_term($contributer_id, 'contributor');
+            if ($term_obj) {
+                $authors[$contributer_id]['name'] = $term_obj->name;
+                $authors[$contributer_id]['description'] = $term_obj->description;
+                $authors[$contributer_id]['img'] = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
+                $contributor_choice = get_field_object("iba_contributor_".$loopnum."_role");
+                $contributor_role = $contributor_choice['choices'][get_field("iba_contributor_".$loopnum."_role")];
+                $authors[$contributer_id]['role'] = $contributor_role;
+            }
+        }
+    }
+
+    return $authors;
+}
