@@ -142,7 +142,7 @@ class Shortcodes {
         $skin_avail = \IBA\TEMPLATE_DIR . "carousel-slider-{$props['skin']}.php";
 
         if (!file_exists($skin_avail)) {
-            $props['skin'] = 'naked';
+            $props['skin'] = 'topbar';
         }
 
         self::$_shortcodes['product_carousel'] = array(
@@ -150,6 +150,10 @@ class Shortcodes {
             'query' => $carousel_query
         );
 
-        return return_include($skin_avail);
+        if (file_exists($skin_avail)) {
+            return return_include($skin_avail);
+        }
+
+        return '';
     }
 }
