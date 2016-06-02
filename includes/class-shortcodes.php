@@ -49,53 +49,18 @@ class Shortcodes {
         ), $atts);
 
         $args = array(
-            'category_name' => $props['category'],
+            'tax_query' => array(),
             'posts_per_page' => $props['max'],
             'post_type' => 'product',
             'orderby' => array(
-                //'iba_category_rank_clause' => 'ASC',
                 'iba_publication_date_clause' => 'DESC'
             ),
             'meta_query' => array(
-                /*'iba_category_rank_clause' => array(
-                    'relation' => 'AND',
-                    array(
-                        'relation' => 'OR',
-                        array(
-                            'key'     => 'iba_category_1',
-                            'value' => $props['category'],
-                            'compare' => '='
-                        ),
-                        array(
-                            'key'     => 'iba_category_2',
-                            'value' => $props['category'],
-                            'compare' => '='
-                        ),
-                        array(
-                            'key'     => 'iba_category_3',
-                            'value' => $props['category'],
-                            'compare' => '='
-                        ),
-                    ),
-                    array(
-                        'relation' => 'OR',
-                        array(
-                            'key'     => 'iba_category_1_rank',
-                            'type'    => 'numeric',
-                            'compare' => 'EXISTS'
-                        ),
-                        array(
-                            'key'     => 'iba_category_2_rank',
-                            'type'    => 'numeric',
-                            'compare' => 'EXISTS'
-                        ),
-                        array(
-                            'key'     => 'iba_category_3_rank',
-                            'type'    => 'numeric',
-                            'compare' => 'EXISTS'
-                        )
-                    )
-                ),*/
+                'iba_category_1_rank_clause' => array(
+                    'key' => 'iba_category_1_rank',
+                    'value' => 1,
+                    'compare' => '='
+                ),
                 'iba_publication_date_clause' => array(
                     'key' => 'iba_publication_date',
                     'type' => 'DATE',
@@ -104,22 +69,39 @@ class Shortcodes {
             )
         );
 
-        $tag_name = false;
-        $category_name = get_term_by('slug', $props['category'], 'category');
+        $tag = false;
+        $category = false;
+
+        /**
+         * If category is defined add it to query
+         */
+        if ($props['category']) {
+            $args['tax_query'][] = array(
+                'taxonomy' => 'category',
+                'field' => 'slug',
+                'terms' => $props['category'],
+            );
+
+            $category = get_category_by_slug($props['category']);
+
+            $args['meta_query']['iba_category_1_clause'] = array(
+                'key' => 'iba_category_1',
+                'value' => ($category ? $category->term_id : ''),
+                'compare' => '='
+            );
+        }
 
         /**
          * If tag is defined add it to query
          */
         if ($props['tag']) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => 'product_tag',
-                    'field'    => 'slug',
-                    'terms'    => $props['tag'],
-                ),
+            $args['tax_query'][] = array(
+                'taxonomy' => 'product_tag',
+                'field'    => 'slug',
+                'terms'    => $props['tag']
             );
 
-            $tag_name = get_term_by('slug', $props['tag'], 'product_tag');
+            $tag = get_term_by('slug', $props['tag'], 'product_tag');
         }
 
         $carousel_query = new \WP_Query($args);
@@ -127,16 +109,16 @@ class Shortcodes {
             return '';
         }
 
-        if (!$props['header'] && $category_name) {
-            $props['header'] = $category_name->name;
+        if (!$props['header'] && $category) {
+            $props['header'] = $category->name;
         }
 
-        if ($tag_name && $category_name) {
-            $props['header'] = $tag_name->name . ' in <span class="link-brand">' . $props['header'] . '</span>';
+        if ($tag && $category) {
+            $props['header'] = $tag->name . ' in <span class="link-brand">' . $props['header'] . '</span>';
         }
 
-        if (!$props['link_to_caption'] && $category_name) {
-            $props['link_to_caption'] = get_category_link($category_name->term_id);
+        if (!$props['link_to_caption'] && $category) {
+            $props['link_to_caption'] = get_category_link($category->term_id);
         }
 
         $skin_avail = \IBA\TEMPLATE_DIR . "carousel-slider-{$props['skin']}.php";
