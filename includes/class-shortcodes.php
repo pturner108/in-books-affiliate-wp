@@ -34,6 +34,7 @@ class Shortcodes {
      *      $atts['header'] string. Optional, Defaults to category name
      *      $atts['see_more_caption'] string. Optional, Defaults to 'View All' will point to target category page
      *      $atts['link_to_caption'] string. Optional, Defaults links to category
+     *      $atts['category_rank'] string|int. Optional, Defaults to 1, category must be define
      *
      * @return string;
      */
@@ -45,7 +46,8 @@ class Shortcodes {
             'skin' => 'topbar',
             'header' => '',
             'see_more_caption' => 'View All',
-            'link_to_caption' => ''
+            'link_to_caption' => '',
+            'category_rank' => 1
         ), $atts);
 
         $args = array(
@@ -58,13 +60,12 @@ class Shortcodes {
             'meta_query' => array(
                 'iba_category_1_rank_clause' => array(
                     'key' => 'iba_category_1_rank',
-                    'value' => 1,
+                    'value' => $props['category_rank'],
                     'compare' => '='
                 ),
                 'iba_publication_date_clause' => array(
                     'key' => 'iba_publication_date',
-                    'type' => 'DATE',
-                    'compare' => 'EXISTS'
+                    'type' => 'UNSIGNED'
                 )
             )
         );
@@ -113,12 +114,20 @@ class Shortcodes {
             $props['header'] = $category->name;
         }
 
+        if (!$props['header'] && $tag) {
+            $props['header'] = $tag->name;
+        }
+
         if ($tag && $category) {
             $props['header'] = $tag->name . ' in <span class="link-brand">' . $props['header'] . '</span>';
         }
 
         if (!$props['link_to_caption'] && $category) {
             $props['link_to_caption'] = get_category_link($category->term_id);
+        }
+
+        if (!$props['link_to_caption'] && $tag) {
+            $props['link_to_caption'] = get_term_link($tag, 'product_tag');
         }
 
         $skin_avail = \IBA\TEMPLATE_DIR . "carousel-slider-{$props['skin']}.php";
