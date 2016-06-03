@@ -58,11 +58,6 @@ class Shortcodes {
                 'iba_publication_date_clause' => 'DESC'
             ),
             'meta_query' => array(
-                'iba_category_1_rank_clause' => array(
-                    'key' => 'iba_category_1_rank',
-                    'value' => $props['category_rank'],
-                    'compare' => '='
-                ),
                 'iba_publication_date_clause' => array(
                     'key' => 'iba_publication_date',
                     'type' => 'UNSIGNED'
@@ -88,6 +83,12 @@ class Shortcodes {
             $args['meta_query']['iba_category_1_clause'] = array(
                 'key' => 'iba_category_1',
                 'value' => ($category ? $category->term_id : ''),
+                'compare' => '='
+            );
+
+            $args['meta_query']['iba_category_1_rank_clause'] = array(
+                'key' => 'iba_category_1_rank',
+                'value' => $props['category_rank'],
                 'compare' => '='
             );
         }
