@@ -2,7 +2,10 @@
 
 <div class="gray-bar">
     <div class="container">
-        <span class="title text-center"><?php echo $options['atts']['header']; ?></span>
+        <span class="title"><?php echo $options['atts']['header']; ?></span>
+        <a class="show-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
+            <?php echo $options['atts']['see_more_caption']; ?>
+        </a>
     </div>
 </div>
 
