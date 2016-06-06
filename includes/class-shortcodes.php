@@ -35,6 +35,7 @@ class Shortcodes {
      *      $atts['see_more_caption'] string. Optional, Defaults to 'View All' will point to target category page
      *      $atts['link_to_caption'] string. Optional, Defaults links to category
      *      $atts['category_rank'] string|int. Optional, Defaults to 1, category must be define
+     *      $atts['show_view_button'] bool. Optional, Defaults to false, tag must be define, only support naked skin
      *
      * @return string;
      */
@@ -47,7 +48,8 @@ class Shortcodes {
             'header' => '',
             'see_more_caption' => 'View All',
             'link_to_caption' => '',
-            'category_rank' => 1
+            'category_rank' => 1,
+            'show_view_button' => false
         ), $atts);
 
         $args = array(
@@ -104,6 +106,17 @@ class Shortcodes {
             );
 
             $tag = get_term_by('slug', $props['tag'], 'product_tag');
+
+            if ($props['show_view_button']) {
+                $query_param = '';
+                if ($props['category']) {
+                    $query_param = '?' . http_build_query(array(
+                        'category' => $props['category']
+                    ));
+                }
+                $props['show_view_button_text'] = 'View All ' . $tag->name;
+                $props['show_view_button_link'] = get_term_link($tag, 'product_tag') . $query_param;
+            }
         }
 
         $carousel_query = new \WP_Query($args);

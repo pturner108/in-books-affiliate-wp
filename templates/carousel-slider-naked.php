@@ -1,10 +1,6 @@
 <?php $options = iba_get_shortcodes_atts('product_carousel'); ?>
 
-<div class="gray-bar">
-    <div class="container">
-        <span class="title text-center"><?php echo $options['atts']['header']; ?></span>
-    </div>
-</div>
+<h2 class="shop-cate-heading"><?php echo $options['atts']['header']; ?></h2>
 
 <div class="bottom-slider">
     <div class="container">
@@ -45,7 +41,9 @@
                 $authors = rtrim($con, ', ');
                 ?>
                 <div class="book-slide">
-                    <a href="<?php the_permalink(); ?>"><img src="<?php the_post_thumbnail(); ?>" /></a>
+                    <a href="<?php the_permalink(); ?>">
+                        <?php the_post_thumbnail(); ?>
+                    </a>
                     <div class="slide-detail">
                         <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
                         <span><?php echo $authors; ?></span>
@@ -62,3 +60,11 @@
         </div>
     </div>
 </div>
+
+<?php if ($options['atts']['show_view_button']) { ?>
+<div class="load-more view-all-staff">
+    <a href="<?php echo $options['atts']['show_view_button_link']; ?>">
+        <?php echo $options['atts']['show_view_button_text']; ?> &gt;
+    </a>
+</div>
+<?php } ?>
