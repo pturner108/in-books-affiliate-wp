@@ -47,7 +47,9 @@
                     $authors = rtrim($con, ', ');
                     ?>
                     <div class="book-slide">
-                        <a href="<?php the_permalink(); ?>"><img src="<?php the_post_thumbnail(); ?>" /></a>
+                        <a href="<?php the_permalink(); ?>">
+                            <?php the_post_thumbnail(); ?>
+                        </a>
                         <div class="slide-detail">
                             <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
                             <span><?php echo $authors; ?></span>
