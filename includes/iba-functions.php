@@ -215,8 +215,10 @@ if (!function_exists('iba_get_post_categories')) {
  * @param $shortcode string
  * @return array
  */
-function iba_get_shortcodes_atts($shortcode) {
-    return \IBA\Shortcodes::get_atts($shortcode);
+if (!function_exists('iba_get_shortcodes_atts')) {
+    function iba_get_shortcodes_atts($shortcode) {
+        return \IBA\Shortcodes::get_atts($shortcode);
+    }
 }
 
 /**
@@ -225,23 +227,72 @@ function iba_get_shortcodes_atts($shortcode) {
  * @param $post_id mixed
  * @return array
  */
-function iba_get_product_contributors($post_id) {
-    $authors = array();
+if (!function_exists('iba_get_product_contributors')) {
+    function iba_get_product_contributors($post_id) {
+        $authors = array();
 
-    for ($loopnum=1; $loopnum < 4; $loopnum++) {
-        $contributer_id = get_field("iba_contributor_".$loopnum."_id", $post_id);
-        if ($contributer_id) {
-            $term_obj = get_term($contributer_id, 'contributor');
-            if ($term_obj) {
-                $authors[$contributer_id]['name'] = $term_obj->name;
-                $authors[$contributer_id]['description'] = $term_obj->description;
-                $authors[$contributer_id]['img'] = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
-                $contributor_choice = get_field_object("iba_contributor_".$loopnum."_role");
-                $contributor_role = $contributor_choice['choices'][get_field("iba_contributor_".$loopnum."_role")];
-                $authors[$contributer_id]['role'] = $contributor_role;
+        for ($loopnum = 1; $loopnum < 4; $loopnum++) {
+            $contributer_id = get_field("iba_contributor_" . $loopnum . "_id", $post_id);
+            if ($contributer_id) {
+                $term_obj = get_term($contributer_id, 'contributor');
+                if ($term_obj) {
+                    $authors[$contributer_id]['name'] = $term_obj->name;
+                    $authors[$contributer_id]['description'] = $term_obj->description;
+                    $authors[$contributer_id]['img'] = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
+                    $contributor_choice = get_field_object("iba_contributor_" . $loopnum . "_role");
+                    $contributor_role = $contributor_choice['choices'][get_field("iba_contributor_" . $loopnum . "_role")];
+                    $authors[$contributer_id]['role'] = $contributor_role;
+                }
             }
         }
-    }
 
-    return $authors;
+        return $authors;
+    }
+}
+
+/**
+ * Get product variation with their attributes
+ *
+ * @param $product WC_Product
+ * @return array
+ */
+if (!function_exists('iba_get_product_variations')) {
+    function iba_get_product_variations($product) {
+        $vars = array();
+        $attributes = $product->get_variation_attributes();
+        foreach ($attributes as $taxonomy => $variations) {
+            foreach ($variations as $variation) {
+                $vars[] = get_term_by('slug', $variation, $taxonomy);
+            }
+        }
+        return $vars;
+    }
+}
+
+if (!function_exists('iba_get_product_variation_term')) {
+    function iba_get_product_variation_term($varition, $taxonomy = 'pa_cover-type') {
+        return get_term_by('slug', $varition, $taxonomy);
+    }
+}
+
+/**
+ * Get product default variation attribute's slug
+ *
+ * @param $product WC_Product
+ * @return string
+ */
+if (!function_exists('iba_get_product_default_attribute')) {
+    function iba_get_product_default_attribute($product) {
+        $variation_name = null;
+        $variation_ids = $product->get_children();
+        foreach($variation_ids as $variation_id) {
+            $var_data = new WC_Product_Variation($variation_id);
+            $default_variation_slug = $var_data->default_attributes;
+            foreach($default_variation_slug as $key => $val) {
+                $variation_name = $val;
+            }
+        }
+
+        return $variation_name;
+    }
 }
