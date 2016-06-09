@@ -229,24 +229,71 @@ if (!function_exists('iba_get_shortcodes_atts')) {
  */
 if (!function_exists('iba_get_product_contributors')) {
     function iba_get_product_contributors($post_id) {
-        $authors = array();
+        $contributors = array();
 
         for ($loopnum = 1; $loopnum < 4; $loopnum++) {
             $contributer_id = get_field("iba_contributor_" . $loopnum . "_id", $post_id);
             if ($contributer_id) {
                 $term_obj = get_term($contributer_id, 'contributor');
                 if ($term_obj) {
-                    $authors[$contributer_id]['name'] = $term_obj->name;
-                    $authors[$contributer_id]['description'] = $term_obj->description;
-                    $authors[$contributer_id]['img'] = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
+                    $contributors[$contributer_id]['name'] = $term_obj->name;
+                    $contributors[$contributer_id]['description'] = $term_obj->description;
+                    $contributors[$contributer_id]['img'] = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
                     $contributor_choice = get_field_object("iba_contributor_" . $loopnum . "_role");
                     $contributor_role = $contributor_choice['choices'][get_field("iba_contributor_" . $loopnum . "_role")];
-                    $authors[$contributer_id]['role'] = $contributor_role;
+                    $contributors[$contributer_id]['role'] = $contributor_role;
                 }
             }
         }
 
-        return $authors;
+        return $contributors;
+    }
+}
+
+/**
+ * Retrieve ACF Marketing copy fields for single product
+ *
+ * @param $post_id mixed
+ * @return array
+ */
+if (!function_exists('iba_get_marketing_copy')) {
+    function iba_get_marketing_copy($post_id) {
+        $marketing_copy = array();
+
+        $staff_review = get_field('iba_staff_review', $post_id);
+        $excerpt = get_field('iba_excerpt', $post_id);
+        $table_of_contents = get_field('iba_table_of_contents', $post_id);
+        $praise = get_field('iba_praise', $post_id);
+
+        if ($staff_review) {
+            $marketing_copy[] = array(
+                'title' => 'Staff Review',
+                'desc' => $staff_review
+            );
+        }
+
+        if ($excerpt) {
+            $marketing_copy[] = array(
+                'title' => 'Book Excerpt',
+                'desc' => $excerpt
+            );
+        }
+
+        if ($table_of_contents) {
+            $marketing_copy[] = array(
+                'title' => 'Table of Contents',
+                'desc' => $table_of_contents
+            );
+        }
+
+        if ($praise) {
+            $marketing_copy[] = array(
+                'title' => 'Praise',
+                'desc' => $praise
+            );
+        }
+
+        return $marketing_copy;
     }
 }
 
