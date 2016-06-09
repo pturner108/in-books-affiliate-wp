@@ -45,6 +45,8 @@
                         $con .= $contributor['name']. ', ';
                     }
                     $authors = rtrim($con, ', ');
+                    // Products with no featured image will be excluded
+                    if (!has_post_thumbnail()) continue;
                     ?>
                     <div class="book-slide">
                         <a href="<?php the_permalink(); ?>">

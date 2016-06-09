@@ -46,6 +46,7 @@
                     $con .= $contributor['name']. ', ';
                 }
                 $authors = rtrim($con, ', ');
+                if (!has_post_thumbnail()) continue;
                 ?>
                 <div class="book-slide">
                     <a href="<?php the_permalink(); ?>">
