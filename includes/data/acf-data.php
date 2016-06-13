@@ -500,7 +500,8 @@ return array(
                 'name' => 'iba_contributor_1_id',
                 'type' => 'taxonomy',
                 'taxonomy' => 'contributor',
-                'field_type' => 'select'
+                'field_type' => 'select',
+                'allow_null' => 1
             ),
             array(
                 'key' => 'iba_contributor_1_role',
@@ -518,7 +519,8 @@ return array(
                 'name' => 'iba_contributor_2_id',
                 'type' => 'taxonomy',
                 'taxonomy' => 'contributor',
-                'field_type' => 'select'
+                'field_type' => 'select',
+                'allow_null' => 1
             ),
             array(
                 'key' => 'iba_contributor_2_role',
@@ -536,7 +538,8 @@ return array(
                 'name' => 'iba_contributor_3_id',
                 'type' => 'taxonomy',
                 'taxonomy' => 'contributor',
-                'field_type' => 'select'
+                'field_type' => 'select',
+                'allow_null' => 1
             ),
             array(
                 'key' => 'iba_contributor_3_role',
