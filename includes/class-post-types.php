@@ -13,7 +13,6 @@ class PostTypes {
 
     public static function register_taxonomies() {
         register_taxonomy('contributor', 'product', array(
-            'hierarchical'          => true,
             'label'                 => __('Contributors', 'iba'),
             'labels' => array(
                 'name'              => __('Contributors', 'iba'),
@@ -31,11 +30,6 @@ class PostTypes {
             ),
             'show_ui'               => true,
             'query_var'             => true,
-            'rewrite' => array(
-                'slug'         => _x('contributor', 'slug', 'iba'),
-                'with_front'   => false,
-                'hierarchical' => true,
-            ),
             'meta_box_cb' => false // Hide metabox from post type
        ));
     }
