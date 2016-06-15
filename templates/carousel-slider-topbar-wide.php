@@ -9,16 +9,20 @@
     </div>
 </div>
 
-<div class="bottom-slider">
+<div class="gray-bar mobile-bar">
     <div class="container">
-        <?php
-        $unique_prev = iba_random_unique_id();
-        $unique_next = iba_random_unique_id();
-        ?>
-        <div class="cycle-slideshow" data-cycle-fx="carousel" data-cycle-timeout="0"
-             data-cycle-carousel-visible="5" data-cycle-carousel-fluid="true" data-cycle-slides="> div"
-             data-cycle-next="#next<?php echo $unique_next; ?>"
-             data-cycle-prev="#prev<?php echo $unique_prev; ?>">
+        <span>
+            <a class="show-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
+                <?php echo $options['atts']['see_more_caption']; ?>
+            </a>
+        </span>
+        <span class="title"><?php echo __('From the DHARMA SPRING BOOKSTORE', 'ds1'); ?></span>
+    </div>
+</div>
+
+<div class="bottom-slider b-slider">
+    <div class="container">
+        <div class="slider1" id="slideshow">
             <?php
             while ($options['query']->have_posts()) {
                 $options['query']->the_post();
@@ -49,22 +53,27 @@
                 if (!has_post_thumbnail()) continue;
                 ?>
                 <div class="book-slide">
-                    <a href="<?php the_permalink(); ?>">
-                        <?php the_post_thumbnail(); ?>
-                    </a>
-                    <div class="slide-detail">
-                        <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-                        <span><?php echo $authors; ?></span>
-                        <span class="book-price"><?php echo $paper_type; ?>: <?php echo (is_null($paperback_price) ? $product_->get_price_html() : $paperback_price); ?></span>
+                    <div class="inner-box">
+                        <a href="<?php the_permalink(); ?>">
+                            <?php the_post_thumbnail(); ?>
+                        </a>
+                        <div class="slide-detail">
+                            <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+                            <span><?php echo $authors; ?></span>
+                            <span class="book-price">
+                                <?php echo $paper_type; ?>:
+                                <?php echo (is_null($paperback_price) ? $product_->get_price_html() : $paperback_price); ?>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <?php
             }
             ?>
         </div>
-        <div class=cycle-slideshow-pager>
-            <a href="#" id="prev<?php echo $unique_prev; ?>" class="fa fa-angle-left"></a>
-            <a href="#" id="next<?php echo $unique_next; ?>" class="fa fa-angle-right"></a>
+        <div class="slideshow-pager">
+            <span href="#" id="prev2"></span>
+            <span href="#" id="next2"></span>
         </div>
     </div>
 </div>
