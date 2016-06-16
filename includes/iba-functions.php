@@ -97,7 +97,11 @@ if (!function_exists('iba_post_to_id')) {
  */
 if (!function_exists('iba_get_related_via_ai')) {
     function iba_get_related_via_ai($post, $post_type, $post_status, $connected, $max = 15) {
-        $categories = iba_get_post_categories($post->ID);
+        if ($post_type === 'product') {
+            $categories = iba_get_product_categories($post->ID);
+        } else {
+            $categories = iba_get_post_categories($post->ID);
+        }
         $connected_ids = array_map('iba_post_to_id', $connected);
         if (empty($categories)) {
             return array();
@@ -110,7 +114,12 @@ if (!function_exists('iba_get_related_via_ai')) {
 
         while ($i < $max_runs && sizeof($related) < $max) {
             $term_id = $categories[0]->term_id;
-            $related = array_merge($related, iba_get_posts_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i));
+            if ($post_type === 'product') {
+                $related_post = iba_get_products_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i);
+            } else {
+                $related_post = iba_get_posts_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i);
+            }
+            $related = array_merge($related, $related_post);
 
             $needed = $max - sizeof($related);
             $i++;
@@ -120,6 +129,7 @@ if (!function_exists('iba_get_related_via_ai')) {
         return $related;
     }
 }
+
 /**
  * @param $post WP_Post the post with connections
  * @param $post_type string type of post
@@ -151,7 +161,6 @@ if (!function_exists('iba_get_posts_with_multi_cat')) {
 
         $related = get_posts(array(
             'post_type' => $post_type,
-            'post__note_in' => array($post->ID),
             'meta_key' => '_ds1_multi_cat',
             'meta_value' => $meta_value,
             'meta_compare' => 'REGEXP',
@@ -160,6 +169,44 @@ if (!function_exists('iba_get_posts_with_multi_cat')) {
             'post__not_in' => $exclude_post_ids,
             'tax_query' => iba_post_query_format_not('dharma-dose')
         ));
+        return $related;
+    }
+}
+
+/**
+ * @param $post WP_Post the post with connections
+ * @param $post_type string type of post
+ * @param $post_status
+ * @param array $exclude_post_ids exclude these IDS from results since they are already connected
+ * @param $max int max results
+ * @param $term_id int category id to look for
+ * @param int|string $position position that category should appear in multicat: 1, 2, 3
+ * @return array Posts that are related
+ * @internal param $meta_value
+ */
+if (!function_exists('iba_get_products_with_multi_cat')) {
+    function iba_get_products_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id, $position = 'any') {
+        // exclude this post
+        $exclude_post_ids[] = $post->ID;
+        $related = array();
+
+        $args = array(
+            'post_type' => $post_type,
+            'category__in' => $term_id,
+            'posts_per_page' => $max,
+            'post_status' => $post_status,
+            'post__not_in' => $exclude_post_ids
+        );
+
+        $multi_cat_query = new WP_Query($args);
+        if ($multi_cat_query->have_posts()) {
+            while($multi_cat_query->have_posts()) {
+                $multi_cat_query->the_post();
+                global $post;
+                $related[] = $post;
+            }
+        }
+
         return $related;
     }
 }
@@ -206,6 +253,19 @@ if (!function_exists('iba_get_post_categories')) {
         }
 
         return get_the_category($post_id);
+    }
+}
+
+/**
+ * Returns category array for the given posttype product, or if null the current product
+ * @param null $post_id in if null uses #get_the_ID
+ * @return array|null
+ */
+if (!function_exists('iba_get_product_categories')) {
+    function iba_get_product_categories($post_id = null) {
+        $post_id = mdx_default_post_id($post_id);
+
+        return get_the_terms($post_id, 'category');
     }
 }
 
