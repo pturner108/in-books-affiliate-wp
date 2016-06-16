@@ -296,9 +296,9 @@ if (!function_exists('iba_get_product_contributors')) {
             if ($contributer_id) {
                 $term_obj = get_term($contributer_id, 'contributor');
                 if ($term_obj) {
-                    $contributors[$contributer_id]['name'] = $term_obj->name;
+                    $contributors[$contributer_id]['name'] = get_field('iba_contributor_display_name', 'contributor_' . $term_obj->term_taxonomy_id);
                     $contributors[$contributer_id]['description'] = $term_obj->description;
-                    $contributors[$contributer_id]['img'] = wp_get_attachment_image_src(get_post_thumbnail_id($post_id));
+                    $contributors[$contributer_id]['img'] = get_field('iba_contributor_photo', 'contributor_' . $term_obj->term_taxonomy_id);
                     $contributor_choice = get_field_object("iba_contributor_" . $loopnum . "_role");
                     $contributor_role = $contributor_choice['choices'][get_field("iba_contributor_" . $loopnum . "_role")];
                     $contributors[$contributer_id]['role'] = $contributor_role;
