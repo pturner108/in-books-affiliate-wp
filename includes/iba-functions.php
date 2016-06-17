@@ -295,7 +295,10 @@ if (!function_exists('iba_get_product_contributors')) {
             $contributer_id = get_field("iba_contributor_" . $loopnum . "_id", $post_id);
             if ($contributer_id) {
                 $term_obj = get_term($contributer_id, 'contributor');
-                if ($term_obj) {
+                /**
+                 * Exclude contributor if no description
+                 */
+                if ($term_obj && !empty($term_obj->description)) {
                     $contributors[$contributer_id]['name'] = get_field('iba_contributor_display_name', 'contributor_' . $term_obj->term_taxonomy_id);
                     $contributors[$contributer_id]['description'] = $term_obj->description;
                     $contributors[$contributer_id]['img'] = get_field('iba_contributor_photo', 'contributor_' . $term_obj->term_taxonomy_id);
