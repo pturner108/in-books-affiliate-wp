@@ -48,6 +48,9 @@
                 $contributors = iba_get_product_contributors(get_the_ID());
                 $con = '';
                 foreach($contributors as $contributor){
+                    if(empty($contributor['name'])) {
+                        continue;
+                    }
                     $con .= $contributor['name']. ', ';
                 }
                 $authors = rtrim($con, ', ');
