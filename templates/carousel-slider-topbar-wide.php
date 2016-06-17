@@ -72,8 +72,8 @@
             ?>
         </div>
         <div class="slideshow-pager">
-            <span href="#" id="prev2"></span>
-            <span href="#" id="next2"></span>
+            <span href="#" class="prev2"></span>
+            <span href="#" class="next2"></span>
         </div>
     </div>
 </div>
