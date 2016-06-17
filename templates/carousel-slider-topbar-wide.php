@@ -46,6 +46,7 @@
                     }
                 }
                 $contributors = iba_get_product_contributors(get_the_ID());
+                $con = '';
                 foreach($contributors as $contributor){
                     $con .= $contributor['name']. ', ';
                 }
