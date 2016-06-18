@@ -62,7 +62,15 @@
                             <?php the_post_thumbnail(); ?>
                         </a>
                         <div class="slide-detail">
-                            <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+                            <h5>
+                                <a href="<?php the_permalink(); ?>">
+                                    <?php
+                                    if(get_field('iba_title')) {
+                                        the_field('iba_title'); ?>: <?php
+                                    }
+                                    the_field('iba_subtitle', get_the_ID()); ?>
+                                </a>
+                            </h5>
                             <span><?php echo $authors; ?></span>
                             <span class="book-price">
                                 <?php echo $paper_type; ?>:
