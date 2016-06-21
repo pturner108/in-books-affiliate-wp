@@ -115,7 +115,9 @@ class Shortcodes {
                     ));
                 }
                 $props['show_view_button_text'] = 'View All ' . $tag->name;
-                $props['show_view_button_link'] = get_term_link($tag, 'product_tag') . $query_param;
+
+                $term_link = get_term_link($tag, 'product_tag');
+                if (!is_wp_error($term_link)) $props['show_view_button_link'] = $term_link . $query_param;
             }
         }
 
@@ -141,7 +143,8 @@ class Shortcodes {
         }
 
         if (!$props['link_to_caption'] && $tag) {
-            $props['link_to_caption'] = get_term_link($tag, 'product_tag');
+            $term_link = get_term_link($tag, 'product_tag');
+            if (!is_wp_error($term_link)) $props['link_to_caption'] = $term_link;
         }
 
         $skin_avail = \IBA\TEMPLATE_DIR . "carousel-slider-{$props['skin']}.php";
