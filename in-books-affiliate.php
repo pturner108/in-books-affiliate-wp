@@ -14,10 +14,20 @@ if (!defined("ABSPATH")) {
     exit;
 }
 
+/**
+ * Directory Paths
+ */
 define('IBA\DIR', plugin_dir_path(__FILE__));
 define('IBA\INC_DIR', trailingslashit(DIR . 'includes'));
 define('IBA\TEMPLATE_DIR', trailingslashit(DIR . 'templates'));
 define('IBA\LIB_DIR', trailingslashit(INC_DIR . 'lib'));
+
+/**
+ * URI Paths
+ */
+define('IBA\URI', plugin_dir_url(__FILE__));
+define('IBA\ASSETS_URI', trailingslashit(URI . 'assets'));
+
 
 require_once INC_DIR . 'class-related-list-table.php';
 require_once INC_DIR . 'class-metaboxes.php';
@@ -43,6 +53,8 @@ if (!\WC_Dependencies::woocommerce_active_check()) {
  * @since 1.0.0
  */
 final class Main {
+    const VERSION = '1.0.0';
+
     protected static $_instance = null;
 
     protected function __construct() {

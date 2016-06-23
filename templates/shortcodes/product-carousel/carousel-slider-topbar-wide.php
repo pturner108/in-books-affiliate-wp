@@ -22,7 +22,7 @@
 
 <div class="bottom-slider b-slider">
     <div class="container">
-        <div class="slider1" id="slideshow">
+        <div id="<?php echo $options['atts']['slider_ID']; ?>">
             <?php
             while ($options['query']->have_posts()) {
                 $options['query']->the_post();
@@ -84,8 +84,56 @@
             ?>
         </div>
         <div class="slideshow-pager">
-            <span href="#" class="prev2"></span>
-            <span href="#" class="next2"></span>
+            <span id="<?php echo $options['atts']['slider_prev_ID']; ?>" class="prev"></span>
+            <span id="<?php echo $options['atts']['slider_next_ID']; ?>" class="next"></span>
         </div>
     </div>
 </div>
+
+<script>
+    if (!window.jQuery) {
+        throw new Error('jQuery required for product carousel slider');
+    }
+
+    (function($) {
+        var slider_ID = "#<?php echo $options['atts']['slider_ID']; ?>";
+        var slider_next_ID = "#<?php echo $options['atts']['slider_next_ID']; ?>";
+        var slider_prev_ID = "#<?php echo $options['atts']['slider_prev_ID']; ?>";
+
+        var shopSliderOptions = {
+            infiniteLoop: false,
+            touchEnabled: true,
+            nextSelector: slider_next_ID,
+            prevSelector: slider_prev_ID,
+            pager: false,
+            nextText: ' ',
+            prevText: ' ',
+            autoReload: true,
+            breaks: [{
+                screen: 0,
+                slides: 3,
+                pager: false
+            }, {
+                screen: 480,
+                slides: 5
+            }, {
+                screen: 768,
+                slides: 4,
+                slideMargin: 40
+            }, {
+                screen: 980,
+                slides: 5,
+                slideWidth: 120,
+                slideMargin: 40
+            }, {
+                screen: 1536,
+                slideWidth: 120,
+                slides: 5,
+                slideMargin: 106
+            }]
+        };
+
+        // Book carousel slider on Shop Landing Page
+        $(slider_ID).bxSlider(shopSliderOptions);
+    })(jQuery);
+</script>
