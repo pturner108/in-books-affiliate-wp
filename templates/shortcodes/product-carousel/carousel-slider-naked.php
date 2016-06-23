@@ -73,7 +73,7 @@ $unique_next = iba_random_unique_id();
 <?php if ($options['atts']['show_view_button']) { ?>
 <div class="load-more view-all-staff">
     <a href="<?php echo $options['atts']['show_view_button_link']; ?>">
-        <?php echo $options['atts']['show_view_button_text']; ?> &gt;
+        <?php echo $options['atts']['show_view_button_text']; ?>
     </a>
 </div>
 <?php } ?>
