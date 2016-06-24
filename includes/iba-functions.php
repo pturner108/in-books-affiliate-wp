@@ -1,12 +1,12 @@
 <?php
-/**
- * Functions that handle related posts
- * @param null $post_id the post to retrieve connections for
- * @param array $args 'include_ai' = true when results should include 'artificial intelligence', 'max' the number of posts to return, -1 for all
- * @return array posts related to the one given
- *
- */
 if (!function_exists('iba_get_related_posts')) {
+    /**
+     * Functions that handle related posts
+     *
+     * @param null $post_id the post to retrieve connections for
+     * @param array $args 'include_ai' = true when results should include 'artificial intelligence', 'max' the number of posts to return, -1 for all
+     * @return array posts related to the one given
+     */
     function iba_get_related_posts($post_id = null, $args = array()) {
         $defaults = array(
             'include_ai' => 'true',
@@ -39,18 +39,17 @@ if (!function_exists('iba_get_related_posts')) {
         $ai = iba_get_related_via_ai($post, $post_type, $args['post_status'], $connected, $remaining);
         wp_reset_postdata();
 
-
         $all = array_merge($connected, $ai);
 
         return array('all' => $all, 'direct' => $connected, 'ai' => $ai);
     }
 }
 
-/**
- * @param string $format type of format to exclude
- * @return array query excluding format
- */
 if (!function_exists('iba_post_query_format_not')) {
+    /**
+     * @param string $format type of format to exclude
+     * @return array query excluding format
+     */
     function iba_post_query_format_not($format) {
         return array(
             array(
@@ -63,11 +62,11 @@ if (!function_exists('iba_post_query_format_not')) {
     }
 }
 
-/**
- * @param string|array $format types to include in results
- * @return array query excluding format
- */
 if (!function_exists('iba_post_query_format_in')) {
+    /**
+     * @param string|array $format types to include in results
+     * @return array query excluding format
+     */
     function iba_post_query_format_in($format) {
         return array(
             array(
@@ -86,16 +85,16 @@ if (!function_exists('iba_post_to_id')) {
     }
 }
 
-/**
- * Returns posts related to the one provided
- * @param $post WP_Post to to retrieve related posts for
- * @param $post_type string type of relations to retrieve
- * @param $post_status
- * @param $connected array of currently connected posts
- * @param int $max max to retrieve
- * @return array of posts related to this one via AI
- */
 if (!function_exists('iba_get_related_via_ai')) {
+    /**
+     * Returns posts related to the one provided
+     * @param $post WP_Post to to retrieve related posts for
+     * @param $post_type string type of relations to retrieve
+     * @param $post_status
+     * @param $connected array of currently connected posts
+     * @param int $max max to retrieve
+     * @return array of posts related to this one via AI
+     */
     function iba_get_related_via_ai($post, $post_type, $post_status, $connected, $max = 15) {
         if ($post_type === 'product') {
             $categories = iba_get_product_categories($post->ID);
@@ -130,18 +129,18 @@ if (!function_exists('iba_get_related_via_ai')) {
     }
 }
 
-/**
- * @param $post WP_Post the post with connections
- * @param $post_type string type of post
- * @param $post_status
- * @param array $exclude_post_ids exclude these IDS from results since they are already connected
- * @param $max int max results
- * @param $term_id int category id to look for
- * @param int|string $position position that category should appear in multicat: 1, 2, 3
- * @return array Posts that are related
- * @internal param $meta_value
- */
 if (!function_exists('iba_get_posts_with_multi_cat')) {
+    /**
+     * @param $post WP_Post the post with connections
+     * @param $post_type string type of post
+     * @param $post_status
+     * @param array $exclude_post_ids exclude these IDS from results since they are already connected
+     * @param $max int max results
+     * @param $term_id int category id to look for
+     * @param int|string $position position that category should appear in multicat: 1, 2, 3
+     * @return array Posts that are related
+     * @internal param $meta_value
+     */
     function iba_get_posts_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id, $position = 'any') {
         // exclude this post
         $exclude_post_ids[] = $post->ID;
@@ -173,18 +172,18 @@ if (!function_exists('iba_get_posts_with_multi_cat')) {
     }
 }
 
-/**
- * @param $post WP_Post the post with connections
- * @param $post_type string type of post
- * @param $post_status
- * @param array $exclude_post_ids exclude these IDS from results since they are already connected
- * @param $max int max results
- * @param $term_id int category id to look for
- * @param int|string $position position that category should appear in multicat: 1, 2, 3
- * @return array Posts that are related
- * @internal param $meta_value
- */
 if (!function_exists('iba_get_products_with_multi_cat')) {
+    /**
+     * @param $post WP_Post the post with connections
+     * @param $post_type string type of post
+     * @param $post_status
+     * @param array $exclude_post_ids exclude these IDS from results since they are already connected
+     * @param $max int max results
+     * @param $term_id int category id to look for
+     * @param int|string $position position that category should appear in multicat: 1, 2, 3
+     * @return array Posts that are related
+     * @internal param $meta_value
+     */
     function iba_get_products_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id, $position = 'any') {
         // exclude this post
         $exclude_post_ids[] = $post->ID;
@@ -211,13 +210,13 @@ if (!function_exists('iba_get_products_with_multi_cat')) {
     }
 }
 
-/**
- * @param $args
- * @param $post
- * @param $type
- * @return array
- */
 if (!function_exists('iba_create_related_query')) {
+    /**
+     * @param $args
+     * @param $post
+     * @param $type
+     * @return array
+     */
     function iba_create_related_query($args, $post, $type) {
         $query_vars = array(
             'connected_type' => $type,
@@ -239,12 +238,13 @@ if (!function_exists('iba_create_related_query')) {
     }
 }
 
-/**
- * Returns category array for the given post, or if null the current post
- * @param null $post_id in if null uses #get_the_ID
- * @return array|null
- */
 if (!function_exists('iba_get_post_categories')) {
+    /**
+     * Returns category array for the given post, or if null the current post
+     * @param null $post_id in if null uses #get_the_ID
+     *
+     * @return array|null
+     */
     function iba_get_post_categories($post_id = null) {
         $post_id = mdx_default_post_id($post_id);
 
@@ -256,12 +256,13 @@ if (!function_exists('iba_get_post_categories')) {
     }
 }
 
-/**
- * Returns category array for the given posttype product, or if null the current product
- * @param null $post_id in if null uses #get_the_ID
- * @return array|null
- */
 if (!function_exists('iba_get_product_categories')) {
+    /**
+     * Returns category array for the given posttype product, or if null the current product
+     * @param null $post_id in if null uses #get_the_ID
+     *
+     * @return array|null
+     */
     function iba_get_product_categories($post_id = null) {
         $post_id = mdx_default_post_id($post_id);
 
@@ -269,25 +270,25 @@ if (!function_exists('iba_get_product_categories')) {
     }
 }
 
-/**
- * Retrieve list of all shortcode with their atts
- *
- * @param $shortcode string
- * @return array
- */
 if (!function_exists('iba_get_shortcodes_atts')) {
+    /**
+     * Retrieve list of all shortcode with their atts
+     *
+     * @param $shortcode string
+     * @return array
+     */
     function iba_get_shortcodes_atts($shortcode) {
         return \IBA\Shortcodes::get_atts($shortcode);
     }
 }
 
-/**
- * Retrieve ACF Contributor fields for single product
- *
- * @param $post_id mixed
- * @return array
- */
 if (!function_exists('iba_get_product_contributors')) {
+    /**
+     * Retrieve ACF Contributor fields for single product
+     *
+     * @param $post_id mixed
+     * @return array
+     */
     function iba_get_product_contributors($post_id) {
         $contributors = array();
 
@@ -315,13 +316,13 @@ if (!function_exists('iba_get_product_contributors')) {
     }
 }
 
-/**
- * Retrieve ACF Marketing copy fields for single product
- *
- * @param $post_id mixed
- * @return array
- */
 if (!function_exists('iba_get_marketing_copy')) {
+    /**
+     * Retrieve ACF Marketing copy fields for single product
+     *
+     * @param $post_id mixed
+     * @return array
+     */
     function iba_get_marketing_copy($post_id) {
         $marketing_copy = array();
 
@@ -362,13 +363,13 @@ if (!function_exists('iba_get_marketing_copy')) {
     }
 }
 
-/**
- * Get product variation with their attributes
- *
- * @param $product WC_Product
- * @return array
- */
 if (!function_exists('iba_get_product_variations')) {
+    /**
+     * Get product variation with their attributes
+     *
+     * @param $product WC_Product
+     * @return array
+     */
     function iba_get_product_variations($product) {
         $vars = array();
         $attributes = $product->get_variation_attributes();
@@ -387,13 +388,13 @@ if (!function_exists('iba_get_product_variation_term')) {
     }
 }
 
-/**
- * Get product default variation attribute's slug
- *
- * @param $product WC_Product
- * @return string
- */
 if (!function_exists('iba_get_product_default_attribute')) {
+    /**
+     * Get product default variation attribute's slug
+     *
+     * @param $product WC_Product
+     * @return string
+     */
     function iba_get_product_default_attribute($product) {
         $variation_name = null;
         $variation_ids = $product->get_children();
@@ -406,5 +407,26 @@ if (!function_exists('iba_get_product_default_attribute')) {
         }
 
         return $variation_name;
+    }
+}
+
+if (!function_exists('iba_product_title_and_subtitle')) {
+    /**
+     * Get acf meta field iba_title + iba_subtitle with 60chars
+     * Must be used within product loop
+     *
+     * @param int
+     * @return string
+     */
+    function iba_product_title_and_subtitle($chars = 0) {
+        $title = get_field('iba_title');
+        $subtitle = get_field('iba_subtitle');
+        if ($chars) {
+            // Add character limit
+        }
+        if (!$title) {
+            return '';
+        }
+        return $title . ': ' . $subtitle;
     }
 }
