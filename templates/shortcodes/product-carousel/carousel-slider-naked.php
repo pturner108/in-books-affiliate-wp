@@ -46,11 +46,7 @@ $unique_next = iba_random_unique_id();
                         <div class="slide-detail">
                             <h5>
                                 <a href="<?php the_permalink(); ?>">
-                                    <?php
-                                    if(get_field('iba_title')) {
-                                        the_field('iba_title'); ?>: <?php
-                                    }
-                                    the_field('iba_subtitle', get_the_ID()); ?>
+                                    <?php echo iba_product_title_and_subtitle();?>
                                 </a>
                             </h5>
                             <span class="writer-name"><?php echo $authors; ?></span>

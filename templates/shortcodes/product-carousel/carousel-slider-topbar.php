@@ -52,11 +52,7 @@
                         <div class="slide-detail">
                             <h5>
                                 <a href="<?php the_permalink(); ?>">
-                                    <?php
-                                    if(get_field('iba_title')) {
-                                        the_field('iba_title'); ?>: <?php
-                                    }
-                                    the_field('iba_subtitle', get_the_ID()); ?>
+                                    <?php echo iba_product_title_and_subtitle();?>
                                 </a>
                             </h5>
                             <span><?php echo $authors; ?></span>
