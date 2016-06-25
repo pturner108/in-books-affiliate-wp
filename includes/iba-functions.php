@@ -114,7 +114,7 @@ if (!function_exists('iba_get_related_via_ai')) {
         while ($i < $max_runs && sizeof($related) < $max) {
             $term_id = $categories[0]->term_id;
             if ($post_type === 'product') {
-                $related_post = iba_get_products_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i);
+                $related_post = iba_get_products_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id);
             } else {
                 $related_post = iba_get_posts_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i);
             }
@@ -180,28 +180,38 @@ if (!function_exists('iba_get_products_with_multi_cat')) {
      * @param array $exclude_post_ids exclude these IDS from results since they are already connected
      * @param $max int max results
      * @param $term_id int category id to look for
-     * @param int|string $position position that category should appear in multicat: 1, 2, 3
      * @return array Posts that are related
      * @internal param $meta_value
      */
-    function iba_get_products_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id, $position = 'any') {
+    function iba_get_products_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id) {
         // exclude this post
         $exclude_post_ids[] = $post->ID;
         $related = array();
 
         $args = array(
             'post_type' => $post_type,
-            'category__in' => $term_id,
             'posts_per_page' => $max,
             'post_status' => $post_status,
-            'post__not_in' => $exclude_post_ids
+            'post__not_in' => $exclude_post_ids,
+            'meta_query' => array(
+                array(
+                    'key' => '_iba_category_1',
+                    'meta_value' => $term_id,
+                    'compare' => '='
+                ),
+                array(
+                    'key' => '_iba_category_1_rank',
+                    'meta_value' => 1,
+                    'compare' => '='
+                )
+            )
         );
 
         $multi_cat_query = new WP_Query($args);
-        if ($multi_cat_query->have_posts()) {
-            while($multi_cat_query->have_posts()) {
-                $multi_cat_query->the_post();
-                global $post;
+        $posts = $multi_cat_query->get_posts();
+
+        if (!empty($posts)) {
+            foreach ($posts as $post) {
                 $related[] = $post;
             }
         }
