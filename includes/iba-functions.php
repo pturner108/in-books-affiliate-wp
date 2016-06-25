@@ -96,7 +96,9 @@ if (!function_exists('iba_get_related_via_ai')) {
      * @return array of posts related to this one via AI
      */
     function iba_get_related_via_ai($post, $post_type, $post_status, $connected, $max = 15) {
-        if ($post_type === 'product') {
+        // Check if current post's post type is product
+        if ($post->post_type === 'product') {
+            // Let's get product categories by it's Categories custom fields
             $categories = iba_get_product_categories($post->ID);
         } else {
             $categories = iba_get_post_categories($post->ID);
@@ -123,7 +125,6 @@ if (!function_exists('iba_get_related_via_ai')) {
             $needed = $max - sizeof($related);
             $i++;
         }
-
 
         return $related;
     }
@@ -193,15 +194,17 @@ if (!function_exists('iba_get_products_with_multi_cat')) {
             'posts_per_page' => $max,
             'post_status' => $post_status,
             'post__not_in' => $exclude_post_ids,
+            'meta_key' => 'iba_publication_date',
+            'orderby' => 'meta_value_num',
             'meta_query' => array(
                 array(
-                    'key' => '_iba_category_1',
-                    'meta_value' => $term_id,
+                    'key' => 'iba_category_1',
+                    'value' => $term_id,
                     'compare' => '='
                 ),
                 array(
-                    'key' => '_iba_category_1_rank',
-                    'meta_value' => 1,
+                    'key' => 'iba_category_1_rank',
+                    'value' => 1,
                     'compare' => '='
                 )
             )
@@ -276,7 +279,23 @@ if (!function_exists('iba_get_product_categories')) {
     function iba_get_product_categories($post_id = null) {
         $post_id = mdx_default_post_id($post_id);
 
-        return get_the_terms($post_id, 'category');
+        $iba_cats = array(
+            get_post_meta($post_id, 'iba_category_1', true),
+            get_post_meta($post_id, 'iba_category_2', true),
+            get_post_meta($post_id, 'iba_category_3', true)
+        );
+
+        $iba_cats = array_filter($iba_cats);
+
+        $categories = array();
+        foreach ($iba_cats as $cat_id) {
+            $cat = get_term($cat_id, 'category');
+            if (!is_wp_error($cat)) {
+                $categories[] = $cat;
+            }
+        }
+
+        return $categories;
     }
 }
 

@@ -68,15 +68,9 @@ class Product_Carousel extends Shortcodes {
             'tax_query' => array(),
             'posts_per_page' => $props['max'],
             'post_type' => 'product',
-            'orderby' => array(
-                'iba_publication_date_clause' => 'DESC'
-            ),
-            'meta_query' => array(
-                'iba_publication_date_clause' => array(
-                    'key' => 'iba_publication_date',
-                    'type' => 'UNSIGNED'
-                )
-            )
+            'meta_key' => 'iba_publication_date',
+            'orderby' => 'meta_value_num',
+            'meta_query' => array()
         );
 
         $tag = false;
@@ -94,13 +88,13 @@ class Product_Carousel extends Shortcodes {
 
             $category = get_category_by_slug($props['category']);
 
-            $args['meta_query']['iba_category_1_clause'] = array(
+            $args['meta_query'][] = array(
                 'key' => 'iba_category_1',
                 'value' => ($category ? $category->term_id : ''),
                 'compare' => '='
             );
 
-            $args['meta_query']['iba_category_1_rank_clause'] = array(
+            $args['meta_query'][] = array(
                 'key' => 'iba_category_1_rank',
                 'value' => $props['category_rank'],
                 'compare' => '='
