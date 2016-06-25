@@ -28,7 +28,6 @@ class Metaboxes {
                 array(__CLASS__, 'meta_box_related_products_display'),
                 $screen
             );
-
         }
     }
 
@@ -37,7 +36,18 @@ class Metaboxes {
      */
     public static function meta_box_related_products_display() {
         $max = 50;
-        $related = iba_get_related_posts(get_the_ID(), array('post_status' => 'publish', 'max' => $max, 'p2p_type' => 'related_product_to_product'));
+        $p2p_type = 'related_product_to_product';
+        $screen = get_current_screen();
+
+        if ($screen && $screen->post_type === 'post') {
+            $p2p_type = 'related_post_to_product';
+        }
+
+        $related = iba_get_related_posts(get_the_ID(), array(
+            'post_status' => 'publish',
+            'max' => $max,
+            'p2p_type' => $p2p_type
+        ));
 
         echo '<h2>Published Connections</h2>';
         echo '<h3>'. __('Direct Connections') . '</h3>';
@@ -50,7 +60,11 @@ class Metaboxes {
         $table->prepare_items($related['ai']);
         $table->display();
 
-        $related = iba_get_related_posts(get_the_ID(), array('post_status' => 'all', 'max' => $max, 'p2p_type' => 'related_product_to_product'));
+        $related = iba_get_related_posts(get_the_ID(), array(
+            'post_status' => 'any',
+            'max' => $max,
+            'p2p_type' => $p2p_type
+        ));
 
         echo '<h2>All Connections</h2>';
         echo '<h3>'. __('Direct Connections') . '</h3>';
