@@ -444,15 +444,12 @@ if (!function_exists('iba_product_title_and_subtitle')) {
      * Get acf meta field iba_title + iba_subtitle with 60chars
      * Must be used within product loop
      *
-     * @param int
+     * @param int $post_id Optional.
      * @return string
      */
-    function iba_product_title_and_subtitle($chars = 0) {
-        $title = get_field('iba_title');
-        $subtitle = get_field('iba_subtitle');
-        if ($chars) {
-            // Add character limit
-        }
+    function iba_product_title_and_subtitle($post_id = 0) {
+        $title = get_field('iba_title', $post_id);
+        $subtitle = get_field('iba_subtitle', $post_id);
         if (!$title) {
             return '';
         }
