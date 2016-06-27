@@ -74,7 +74,7 @@
     </div>
 </div>
 
-<script>
+<script><!--//--><![CDATA[//><!--
     if (!window.jQuery) {
         throw new Error('jQuery required for product carousel slider');
     }
@@ -122,4 +122,4 @@
         // Book carousel slider on Shop Landing Page
         $(slider_ID).bxSlider(shopSliderOptions);
     })(jQuery);
-</script>
+//--><!]]></script>
