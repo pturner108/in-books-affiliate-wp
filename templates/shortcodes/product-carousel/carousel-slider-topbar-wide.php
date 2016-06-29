@@ -27,21 +27,20 @@
             while ($options['query']->have_posts()) {
                 $options['query']->the_post();
                 $product_ = wc_get_product(get_the_ID());
-                $paperback_price = null;
-                $paper_type = 'Price';
+                $paperback_price = $product_->get_display_price() ? wc_price($product_->get_display_price()) : null;
+                $paper_type = get_field('iba_product_form_detail') ? get_field('iba_product_form_detail') : 'Price';
+                $price_carousel = $paper_type . ': ' . $paperback_price;
 
                 if ($product_->is_type('variable')) {
+                    $price_carousel = '';
                     $variation_ids = $product_->get_children();
                     foreach($variation_ids as $var_id) {
                         $var_data = new WC_Product_Variation($var_id);
-                        $default_variation_slug = $var_data->default_attributes;
                         $va = wc_get_product_variation_attributes($var_id);
                         foreach($va as $key=>$val) {
-                            if(($default_variation_slug[str_replace('attribute_', '' , $key)] == $val)) {
-                                $paper_type = ucfirst(str_replace('-', '', $val));
-                                $current_product = new WC_Product_Variation($var_id);
-                                $paperback_price = $current_product->get_price_html();
-                            }
+                            $price_carousel .= ucfirst(str_replace('-', '', $val)) . ': ';
+                            $current_product = new WC_Product_Variation($var_id);
+                            $price_carousel .= wc_price($current_product->get_display_price());
                         }
                     }
                 }
@@ -69,8 +68,7 @@
                             </h5>
                             <span><?php echo $authors; ?></span>
                             <span class="book-price">
-                                <?php echo $paper_type; ?>:
-                                <?php echo (is_null($paperback_price) ? $product_->get_price_html() : $paperback_price); ?>
+                                <?php echo $price_carousel; ?>
                             </span>
                         </div>
                     </div>
