@@ -109,14 +109,14 @@ if (!function_exists('iba_get_related_via_ai')) {
         }
 
         $i = 1;
-        $max_runs = ($post_type === 'product') ? 2 : 3;
+        $max_runs = 3;
         $related = array();
         $needed = $max - sizeof($related);
 
-        while ($i < $max_runs && sizeof($related) < $max) {
+        while ($i <= $max_runs && sizeof($related) < $max) {
             $term_id = $categories[0]->term_id;
             if ($post_type === 'product') {
-                $related_post = iba_get_products_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id);
+                $related_post = iba_get_products_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i);
             } else {
                 $related_post = iba_get_posts_with_multi_cat($post, $post_type, $post_status, $connected_ids, $needed, $term_id, $i);
             }
@@ -181,13 +181,16 @@ if (!function_exists('iba_get_products_with_multi_cat')) {
      * @param array $exclude_post_ids exclude these IDS from results since they are already connected
      * @param $max int max results
      * @param $term_id int category id to look for
+     * @param int $position position that category should appear in iba_category_{1|2|3}
      * @return array Posts that are related
      * @internal param $meta_value
      */
-    function iba_get_products_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id) {
+    function iba_get_products_with_multi_cat($post, $post_type, $post_status, $exclude_post_ids, $max, $term_id, $position = 1) {
         // exclude this post
         $exclude_post_ids[] = $post->ID;
         $related = array();
+
+        $iba_category = "iba_category_{$position}";
 
         $args = array(
             'post_type' => $post_type,
@@ -198,12 +201,12 @@ if (!function_exists('iba_get_products_with_multi_cat')) {
             'orderby' => 'meta_value_num',
             'meta_query' => array(
                 array(
-                    'key' => 'iba_category_1',
+                    'key' => $iba_category,
                     'value' => $term_id,
                     'compare' => '='
                 ),
                 array(
-                    'key' => 'iba_category_1_rank',
+                    'key' => $iba_category . '_rank',
                     'value' => 1,
                     'compare' => '='
                 )
