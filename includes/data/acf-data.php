@@ -430,7 +430,8 @@ return array(
                 'taxonomy' => 'category',
                 'field_type' => 'select',
                 'add_term' => false,
-                'return_format' => 'object'
+                'return_format' => 'object',
+                'allow_null' => 1
             ),
             array(
                 'key' => 'iba_category_1_rank',
@@ -446,7 +447,8 @@ return array(
                 'taxonomy' => 'category',
                 'field_type' => 'select',
                 'add_term' => false,
-                'return_format' => 'object'
+                'return_format' => 'object',
+                'allow_null' => 1
             ),
             array(
                 'key' => 'iba_category_2_rank',
@@ -462,7 +464,8 @@ return array(
                 'taxonomy' => 'category',
                 'field_type' => 'select',
                 'add_term' => false,
-                'return_format' => 'object'
+                'return_format' => 'object',
+                'allow_null' => 1
             ),
             array(
                 'key' => 'iba_category_3_rank',
