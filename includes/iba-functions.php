@@ -391,6 +391,15 @@ if (!function_exists('iba_get_marketing_copy')) {
             );
         }
 
+        $product_details = iba_get_product_details($post_id);
+
+        if ($product_details) {
+            $marketing_copy[] = array(
+                'title' => 'Product Details',
+                'desc' => $product_details
+            );
+        }
+
         return $marketing_copy;
     }
 }
@@ -457,5 +466,55 @@ if (!function_exists('iba_product_title_and_subtitle')) {
             return '';
         }
         return $title . ': ' . $subtitle;
+    }
+}
+
+if (!function_exists('iba_get_product_details')) {
+    /**
+     * Get product acf meta fields
+     *
+     * @param int $post_id Optional.
+     * @return string
+     */
+    function iba_get_product_details($post_id = 0) {
+        $cats = '';
+
+        $categories = get_the_terms($post_id, 'category');
+        if ($categories) {
+            $cats = array_map(function($cat) {
+                return $cat->name;
+            }, $categories);
+
+            $cats = implode(', ', $cats);
+        }
+
+        $field = get_field_object('iba_availability', $post_id);
+        $value = get_field('iba_availability', $post_id);
+        $availability = $field['choices'][$value];
+
+        $field = get_field_object('iba_display_format', $post_id);
+        $value = get_field('iba_display_format', $post_id);
+        $display_format = $field['choices'][$value];
+
+        $product_details = array(
+            'Availability' => $availability,
+            'ISBN' => get_field('iba_isbn13', $post_id),
+            'Format' => $display_format,
+            'Pages' => get_field('iba_page_count', $post_id),
+            'Publisher' => get_field('iba_publisher', $post_id),
+            'Pub Date' => get_field('iba_publication_date', $post_id),
+            'Categories' => $cats,
+        );
+
+        $template = '<table class="product-details-content"><tbody>';
+        foreach ($product_details as $pd_key => $pd_val) {
+            $template .= '<tr>';
+            $template .= "<th>{$pd_key}</th>";
+            $template .= "<td>{$pd_val}</td>";
+            $template .= '</tr>';
+        }
+        $template .= '</tbody></table>';
+
+        return $template;
     }
 }
