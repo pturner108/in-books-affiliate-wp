@@ -1,22 +1,18 @@
 <?php $options = iba_get_shortcodes_atts('product_carousel'); ?>
 
-<div class="gray-bar">
+<div class="gray-bar<?php echo (!$options['atts']['see_more_caption']) ? ' text-center' : ''; ?>">
     <div class="container">
-        <span class="title"><?php echo $options['atts']['header']; ?></span>
-        <a class="show-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
-            <?php echo $options['atts']['see_more_caption']; ?>
-        </a>
-    </div>
-</div>
-
-<div class="gray-bar mobile-bar">
-    <div class="container">
-        <span>
-            <a class="show-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
-                <?php echo $options['atts']['see_more_caption']; ?>
+        <span class="show-all visible-mobile">
+            <a href="<?php echo $options['atts']['link_to_caption']; ?>">
+                <?php echo $options['atts']['tag_name']; ?>
             </a>
         </span>
-        <span class="title"><?php echo __('From the DHARMA SPRING BOOKSTORE', 'ds1'); ?></span>
+        <span class="title"><?php echo $options['atts']['header']; ?></span>
+        <?php if ($options['atts']['see_more_caption']) { ?>
+        <a class="show-all visible-desktop" href="<?php echo $options['atts']['link_to_caption']; ?>">
+            <?php echo $options['atts']['see_more_caption']; ?>
+        </a>
+        <?php } ?>
     </div>
 </div>
 

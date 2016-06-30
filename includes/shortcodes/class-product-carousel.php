@@ -132,16 +132,27 @@ class Product_Carousel extends Shortcodes {
             return '';
         }
 
-        if (!$props['header'] && $category) {
-            $props['header'] = $category->name;
+        if ($category) {
+            $props['cat_name'] = $category->name;
         }
 
-        if (!$props['header'] && $tag) {
+        if ($tag) {
+            $props['tag_name'] = $tag->name;
+        }
+
+        if (!$props['header'] && $category) {
+            $props['header'] = $category->name;
+        } else if (!$props['header'] && $tag) {
             $props['header'] = $tag->name;
+        } else if ($props['header'] && $tag) {
+            $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> ' . $props['header'];
         }
 
         if ($tag && $category) {
-            $props['header'] = $tag->name . ' in <span class="link-brand">' . $props['header'] . '</span>';
+            $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> '
+                . ' in <a href="'.get_category_link($category->term_id).'" class="link-brand">'
+                . $category->name
+                . '</a>';
         }
 
         if (!$props['link_to_caption'] && $category) {
