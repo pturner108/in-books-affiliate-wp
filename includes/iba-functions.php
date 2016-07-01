@@ -277,7 +277,7 @@ if (!function_exists('iba_get_product_categories')) {
      * Returns category array for the given posttype product, or if null the current product
      * @param null $post_id in if null uses #get_the_ID
      *
-     * @return array|null
+     * @return array
      */
     function iba_get_product_categories($post_id = null) {
         $post_id = mdx_default_post_id($post_id);

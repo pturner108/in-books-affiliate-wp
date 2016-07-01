@@ -46,8 +46,18 @@ class Related_List_Table extends WP_List_Table {
             $item['count'] = $i;
             $item['id'] = $post_id;
             $item['title'] = sprintf('<a href="%s">%s</a>', get_the_permalink($post), get_the_title($post));
-            $item['format'] = $format->name;
-            $item['categories'] = implode(', ', get_post_meta($post_id, '_ds1_multi_cat'));
+            $item['format'] = is_wp_error($format) ? 'N/A' : $format->name;
+
+            if ($post->post_type === 'product') {
+                $product_categories = iba_get_product_categories($post_id);
+                if (!empty($product_categories)) {
+                    $item['categories'] = implode(', ', array_map(function($cat) {
+                        return $cat->term_id;
+                    }, $product_categories));
+                }
+            } else {
+                $item['categories'] = implode(', ', get_post_meta($post_id, '_ds1_multi_cat'));
+            }
 
             $item['status'] = get_post_status($post_id);
 
