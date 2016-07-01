@@ -424,7 +424,7 @@ if (!function_exists('iba_get_product_variations')) {
 }
 
 if (!function_exists('iba_get_product_variation_term')) {
-    function iba_get_product_variation_term($varition, $taxonomy = 'pa_cover-type') {
+    function iba_get_product_variation_term($varition, $taxonomy = 'pa_product-format') {
         return get_term_by('slug', $varition, $taxonomy);
     }
 }
