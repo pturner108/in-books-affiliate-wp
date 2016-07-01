@@ -29,7 +29,7 @@
                 $value = get_field('iba_display_format');
 
                 $display_format = $value ? $field['choices'][$value] : 'Price';
-                $price_carousel = $display_format . ': ' . $paperback_price;
+                $price_carousel = '<span class="book-price">' . $display_format . ': ' . $paperback_price . '</span>';
 
                 if ($product_->is_type('variable')) {
                     $price_carousel = '';
@@ -38,9 +38,11 @@
                         $var_data = new WC_Product_Variation($var_id);
                         $va = wc_get_product_variation_attributes($var_id);
                         foreach($va as $key=>$val) {
+                            $price_carousel .= '<span class="book-price">';
                             $price_carousel .= ucfirst(str_replace('-', '', $val)) . ': ';
                             $current_product = new WC_Product_Variation($var_id);
                             $price_carousel .= wc_price($current_product->get_display_price());
+                            $price_carousel .= '</span>';
                         }
                     }
                 }
@@ -67,9 +69,7 @@
                                 </a>
                             </h5>
                             <span><?php echo $authors; ?></span>
-                            <span class="book-price">
-                                <?php echo $price_carousel; ?>
-                            </span>
+                            <?php echo $price_carousel; ?>
                         </div>
                     </div>
                 </div>
