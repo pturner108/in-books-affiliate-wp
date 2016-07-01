@@ -24,8 +24,12 @@
                 $options['query']->the_post();
                 $product_ = wc_get_product(get_the_ID());
                 $paperback_price = $product_->get_display_price() ? wc_price($product_->get_display_price()) : null;
-                $paper_type = get_field('iba_product_form_detail') ? get_field('iba_product_form_detail') : 'Price';
-                $price_carousel = $paper_type . ': ' . $paperback_price;
+
+                $field = get_field_object('iba_display_format');
+                $value = get_field('iba_display_format');
+
+                $display_format = $value ? $field['choices'][$value] : 'Price';
+                $price_carousel = $display_format . ': ' . $paperback_price;
 
                 if ($product_->is_type('variable')) {
                     $price_carousel = '';
