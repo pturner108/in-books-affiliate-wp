@@ -103,7 +103,8 @@ class Metaboxes {
                 'create' => __('Assign Featured Product')
             ),
             'admin_box' => 'from',
-            'from_query_vars' => array('post_status' => 'any')
+            'from_query_vars' => array('post_status' => 'any'),
+            'can_create_post' => false
         ));
 
         // Post to product connection
@@ -117,7 +118,8 @@ class Metaboxes {
                 'create' => __('Assign Related Products')
             ),
             'admin_box' => 'from',
-            'from_query_vars' => array('post_status' => 'any')
+            'from_query_vars' => array('post_status' => 'any'),
+            'can_create_post' => false
         ));
 
         // Product to product connection
