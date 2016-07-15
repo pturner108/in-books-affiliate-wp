@@ -133,8 +133,8 @@ class Metaboxes {
             'to_labels' => array(
                 'create' => __('Assign Related Products')
             ),
-            'from_query_vars' => array('post_status' => 'any')
+            'from_query_vars' => array('post_status' => 'any'),
+            'can_create_post' => false
         ));
-
     }
 }
