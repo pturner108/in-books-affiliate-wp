@@ -465,10 +465,18 @@ if (!function_exists('iba_product_title_and_subtitle')) {
     function iba_product_title_and_subtitle($post_id = 0) {
         $title = get_field('iba_title', $post_id);
         $subtitle = get_field('iba_subtitle', $post_id);
+
         if (!$title) {
             return '';
         }
-        return $title . ': ' . $subtitle;
+
+        $resolved_title = $title;
+
+        if ($subtitle) {
+            $resolved_title .= ': ' . $subtitle;
+        }
+
+        return $resolved_title;
     }
 }
 
