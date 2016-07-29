@@ -97,11 +97,11 @@
             autoReload: true,
             breaks: [{
                 screen: 0,
-                slides: 3,
+                slides: 4,
                 pager: false
             }, {
                 screen: 480,
-                slides: 4
+                slides: 5
             }, {
                 screen: 768,
                 slides: 3,
