@@ -319,9 +319,10 @@ if (!function_exists('iba_get_product_contributors')) {
      * Retrieve ACF Contributor fields for single product
      *
      * @param $post_id mixed
+     * @param $include_if string
      * @return array
      */
-    function iba_get_product_contributors($post_id) {
+    function iba_get_product_contributors($post_id, $include_if = 'description') {
         $contributors = array();
 
         for ($loopnum = 1; $loopnum < 4; $loopnum++) {
@@ -336,7 +337,10 @@ if (!function_exists('iba_get_product_contributors')) {
                 /**
                  * Exclude contributor if no display_name and description
                  */
-                if (!empty($term_obj->description) && !empty($contributor_name)) {
+                if (isset($term_obj->{$include_if})
+                    && !empty($term_obj->{$include_if})
+                    && !empty($contributor_name))
+                {
                     $contributors[$contributer_id]['name'] = get_field('iba_contributor_display_name', 'contributor_' . $term_obj->term_taxonomy_id);
                     $contributors[$contributer_id]['description'] = $term_obj->description;
                     $contributors[$contributer_id]['img'] = get_field('iba_contributor_photo', 'contributor_' . $term_obj->term_taxonomy_id);
