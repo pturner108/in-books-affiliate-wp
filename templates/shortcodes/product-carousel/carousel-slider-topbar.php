@@ -109,7 +109,7 @@
             autoReload: true,
             breaks: [{
                 screen: 0,
-                slides: 4,
+                slides: 3,
                 pager: false
             }, {
                 screen: 480,
