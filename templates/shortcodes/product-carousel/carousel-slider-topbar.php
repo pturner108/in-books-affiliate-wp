@@ -1,7 +1,19 @@
 <?php $options = iba_get_shortcodes_atts('product_carousel'); ?>
 
 <div class="shop-cate-heading landing-page-heading <?php echo $options['atts']['skin']; ?>">
-    <?php echo '<h2>' . $options['atts']['header'] . '</h2>'; ?>
+    <?php echo '<h2 class="carousel-header">' . $options['atts']['header'] . '</h2>'; ?>
+
+    <?php
+    /**
+     * Display additional linkable header for mobile
+     */
+    printf(
+        '<h2 class="carousel-link-header"><a href="%1$s" title="%2$s">%2$s</a></h2>',
+        $options['atts']['link_to_caption'],
+        $options['atts']['header']
+    );
+    ?>
+
     <a class="view-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
         <?php echo __($options['atts']['see_more_caption'], 'iba'); ?>
     </a>
