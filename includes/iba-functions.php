@@ -507,14 +507,19 @@ if (!function_exists('iba_get_product_details')) {
         $value = get_field('iba_availability', $post_id);
         $availability = $field['choices'][$value];
 
-        $format_detail = get_field('iba_product_form_detail', $post_id);
+        $format_object = get_field_object('iba_display_format', get_the_ID());
+        $value = get_field('iba_display_format');
+
+        $format = $value && isset($format_object['choices'][$value])
+            ? $format_object['choices'][$value]
+            : '';
 
         $product_details = array(
             'Availability' => $availability,
             'ISBN' => get_field('iba_isbn13', $post_id),
-            'Format' => $format_detail,
+            'Format' => $format,
             'Pages' => get_field('iba_page_count', $post_id),
-            'Publisher' => get_field('iba_publisher', $post_id),
+            'Publisher' => get_field('iba_publisher_imprint', $post_id),
             'Pub Date' => get_field('iba_publication_date', $post_id),
             'Categories' => $cats,
         );
