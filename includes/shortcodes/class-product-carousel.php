@@ -58,6 +58,7 @@ class Product_Carousel extends Shortcodes {
             'max' => 20,
             'skin' => 'topbar',
             'header' => '',
+            'sub_title' => '',
             'see_more_caption' => 'View All',
             'link_to_caption' => '',
             'category_rank' => 1,

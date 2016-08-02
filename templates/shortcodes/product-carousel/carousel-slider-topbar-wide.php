@@ -7,7 +7,10 @@
                 <?php echo $options['atts']['tag_name']; ?>
             </a>
         </span>
-        <span class="title"><?php echo $options['atts']['header']; ?></span>
+        <span class="title">
+            <?php echo $options['atts']['header']; ?>
+            <span class="ds1_sub_title"> <?php echo $options['atts']['sub_title']; ?> </span>
+        </span>
         <?php if ($options['atts']['see_more_caption']) { ?>
         <a class="show-all visible-desktop" href="<?php echo $options['atts']['link_to_caption']; ?>">
             <?php echo $options['atts']['see_more_caption']; ?>
