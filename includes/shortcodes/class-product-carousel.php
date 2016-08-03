@@ -13,6 +13,7 @@ namespace IBA;
  *          2. topbar-wide
  *          3. naked (Not yet implemented)
  *      $atts['header'] string. Optional, Defaults to category name
+ *      $atts['sub_title'] string. Optional, Subtitle for topbar-wide template (useful for two row headers)
  *      $atts['see_more_caption'] string. Optional, Defaults to 'View All' will point to target category page
  *      $atts['link_to_caption'] string. Optional, Defaults links to category
  *      $atts['category_rank'] string|int. Optional, Defaults to 1, category must be define
