@@ -515,7 +515,7 @@ if (!function_exists('iba_get_product_details')) {
             'Format' => $format,
             'Pages' => get_field('iba_page_count', $post_id),
             'Publisher' => get_field('iba_publisher_imprint', $post_id),
-            'Pub Date' => get_field('iba_publication_date', $post_id),
+            'Pub Date' => iba_format_date(get_field('iba_publication_date', $post_id)),
             'Categories' => $cats,
         );
 
@@ -529,5 +529,22 @@ if (!function_exists('iba_get_product_details')) {
         $template .= '</tbody></table>';
 
         return $template;
+    }
+}
+
+if (!function_exists('iba_format_date')) {
+    /**
+     * Format date "201406" to "June 2014"
+     *
+     * @param int|string $date.
+     * @return string
+     */
+    function iba_format_date($date) {
+        // Bail early if date isn't valid,
+        // 201406, 201305, are valid option, but 20141, 2014 are not
+        if (strlen($date) !== 6) return '';
+
+        $dateObj = DateTime::createFromFormat('!m', substr($date, -2));
+        return $dateObj->format('F') . ' ' . substr($date, 0, 4);
     }
 }
