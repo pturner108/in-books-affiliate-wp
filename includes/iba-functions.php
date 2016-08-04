@@ -545,6 +545,6 @@ if (!function_exists('iba_format_date')) {
         if (strlen($date) !== 6) return '';
 
         $dateObj = DateTime::createFromFormat('!m', substr($date, -2));
-        return $dateObj->format('F') . ' ' . substr($date, 0, 4);
+        return $dateObj->format('F') . ', ' . substr($date, 0, 4);
     }
 }
