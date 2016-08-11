@@ -62,7 +62,7 @@ function iba_activate_cumulative_rank_event()
 
 /**
  * Get product items
- * 
+ *
  * @param int $paged
  * @param int $batch_size
  * @return WP_Query
