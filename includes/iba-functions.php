@@ -548,3 +548,29 @@ if (!function_exists('iba_format_date')) {
         return $dateObj->format('F') . ', ' . substr($date, 0, 4);
     }
 }
+
+if (!function_exists('iba_update_parent_category_sort_rank')) {
+    /**
+     * Update the parent_category_sort_rank field by
+     * summing up the iba_category ranks
+     *
+     * @param $post_id int
+     * @return void
+     */
+    function iba_update_parent_category_sort_rank($post_id) {
+        // Retrieve ranks for all 3 categories
+        $ranks = array(
+            get_field('iba_category_1_rank', $post_id),
+            get_field('iba_category_2_rank', $post_id),
+            get_field('iba_category_3_rank', $post_id)
+        );
+
+        // Convert them to integer
+        $ranks = array_map(function($rank) {
+            $_rank = intval($rank);
+            return $_rank ? $_rank : 5;
+        }, $ranks);
+
+        update_field('iba_parent_category_sort_rank', array_sum($ranks), $post_id);
+    }
+}

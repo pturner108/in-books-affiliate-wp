@@ -35,6 +35,7 @@ require_once INC_DIR . 'class-shortcodes.php';
 require_once INC_DIR . 'class-acf.php';
 require_once INC_DIR . 'class-post-types.php';
 require_once INC_DIR . 'functions.php';
+require_once INC_DIR . 'hooks.php';
 
 if (!class_exists('WC_Dependencies')) {
     require_once DIR . 'woo-includes/class-wc-dependencies.php';
