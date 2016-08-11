@@ -473,6 +473,13 @@ return array(
                 'name' => 'iba_category_3_rank',
                 'type' => 'text'
             ),
+            array(
+                'key' => 'iba_parent_category_sort_rank',
+                'label' => 'Parent Category Sort Rank',
+                'name' => 'iba_parent_category_sort_rank',
+                'type' => 'text',
+                'readonly' => 1
+            )
         ),
         'location' => array(
             array(
