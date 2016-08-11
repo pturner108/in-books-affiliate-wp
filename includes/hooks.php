@@ -72,3 +72,24 @@ add_action('acf/save_post', function($post_id) {
 
     iba_update_parent_category_sort_rank($post_id);
 }, 11);
+
+// Routine which will Update the parent_category_sort_rank field by
+// summing up the iba_category ranks
+add_action('iba_cumulative_rank_event', function() {
+    $page = 1;
+
+    update($page);
+
+    function update($page)
+    {
+        $products = iba_get_product_items($page);
+        if (!count($products->posts)) {
+            return;
+        }
+        foreach ($products->posts as $product) {
+            iba_update_parent_category_sort_rank($product->ID);
+        }
+        $page++;
+        update($page);
+    }
+});

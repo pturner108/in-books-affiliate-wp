@@ -48,3 +48,33 @@ function iba_random_unique_id()
     }
     return implode($pass);
 }
+
+/**
+ * Cumulative rank event
+ * @return void
+ */
+function iba_activate_cumulative_rank_event()
+{
+    if (!wp_next_scheduled('iba_cumulative_rank_event')) {
+        wp_schedule_event(time(), 'daily', 'iba_cumulative_rank_event');
+    }
+}
+
+/**
+ * Get product items
+ * 
+ * @param int $paged
+ * @param int $batch_size
+ * @return WP_Query
+ */
+function iba_get_product_items($paged, $batch_size = 100)
+{
+    return new \WP_Query(array(
+        'post_type' => 'product',
+        'posts_per_page' => $batch_size,
+        'post_status' => 'any',
+        'order' => 'ASC',
+        'orderby' => 'ID',
+        'paged' => $paged
+    ));
+}

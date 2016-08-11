@@ -71,6 +71,9 @@ final class Main {
 
         Metaboxes::init();
         Shortcodes::init();
+
+        register_activation_hook(__FILE__, array($this, 'activate'));
+        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
     }
 
     public static function instance() {
@@ -78,6 +81,22 @@ final class Main {
             self::$_instance = new self();
         }
         return self::$_instance;
+    }
+
+    /**
+     * Plugin activation hook
+     */
+    public function activate() {
+        // Schedule cumulative rank event
+        iba_activate_cumulative_rank_event();
+    }
+
+    /**
+     * Plugin deactivation hook
+     */
+    public function deactivate() {
+        // Clear up cumulative rank event
+        wp_clear_scheduled_hook('iba_cumulative_rank_event');
     }
 }
 
