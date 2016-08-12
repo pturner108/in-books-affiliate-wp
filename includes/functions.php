@@ -50,13 +50,15 @@ function iba_random_unique_id()
 }
 
 /**
- * Cumulative rank event
+ * Cumulative rank event.
+ * Run only once after plugin is activated!
+ *
  * @return void
  */
 function iba_activate_cumulative_rank_event()
 {
     if (!wp_next_scheduled('iba_cumulative_rank_event')) {
-        wp_schedule_event(time(), 'daily', 'iba_cumulative_rank_event');
+        wp_schedule_single_event(time(), 'iba_cumulative_rank_event');
     }
 }
 
