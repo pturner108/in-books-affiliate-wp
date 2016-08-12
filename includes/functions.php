@@ -78,3 +78,25 @@ function iba_get_product_items($paged, $batch_size = 100)
         'paged' => $paged
     ));
 }
+
+/**
+ * Warning! Do not use this function, it's I/O intensive
+ * Recursive function to update cumulative rank property for products
+ *
+ * @param int &$page paged
+ * @return void
+ */
+function iba_cumulative_rank_event_update(&$page)
+{
+    if (!defined('DOING_CRON')) return;
+
+    $products = iba_get_product_items($page);
+    if (!count($products->posts)) {
+        return;
+    }
+    foreach ($products->posts as $product) {
+        iba_update_parent_category_sort_rank($product->ID);
+    }
+    $page++;
+    iba_cumulative_rank_event_update($page);
+}

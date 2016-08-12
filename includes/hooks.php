@@ -54,7 +54,7 @@ add_action('acf/save_post', function($post_id) {
     wp_set_post_categories($post_id, $total_cat);
 }, 1, 2);
 
-// Update meta field values for post type product
+// Update acf meta field values for post type product
 add_action('acf/save_post', function($post_id) {
     // bail early if no ACF data
     if (empty($_POST['acf'])) {
@@ -77,19 +77,5 @@ add_action('acf/save_post', function($post_id) {
 // summing up the iba_category ranks
 add_action('iba_cumulative_rank_event', function() {
     $page = 1;
-
-    update($page);
-
-    function update($page)
-    {
-        $products = iba_get_product_items($page);
-        if (!count($products->posts)) {
-            return;
-        }
-        foreach ($products->posts as $product) {
-            iba_update_parent_category_sort_rank($product->ID);
-        }
-        $page++;
-        update($page);
-    }
+    iba_cumulative_rank_event_update($page);
 });
