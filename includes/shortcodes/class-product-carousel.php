@@ -168,9 +168,10 @@ class Product_Carousel extends Shortcodes {
             if (!is_wp_error($term_link)) $props['link_to_caption'] = $term_link;
         }
 
-        $skin_avail = \IBA\TEMPLATE_DIR . "shortcodes/product-carousel/carousel-slider-{$props['skin']}.php";
+        $path_format = \IBA\TEMPLATE_DIR . "shortcodes/product-carousel/%s.php";
+        $skin = sprintf($path_format, $props['skin']);
 
-        if (!file_exists($skin_avail)) {
+        if (!file_exists($skin)) {
             $props['skin'] = 'topbar';
         }
 
@@ -184,8 +185,8 @@ class Product_Carousel extends Shortcodes {
             'query' => $carousel_query
         );
 
-        if (file_exists($skin_avail)) {
-            return return_include($skin_avail);
+        if (file_exists($skin)) {
+            return return_include($skin);
         }
 
         return '';
