@@ -32,7 +32,11 @@
                 $value = get_field('iba_display_format');
 
                 $display_format = $value ? $field['choices'][$value] : 'Price';
-                $price_carousel = '<span class="book-price">' . $display_format . ': ' . $paperback_price . '</span>';
+                $price_carousel = sprintf(
+                    '<span class="book-price">%s: %s</span>',
+                    $display_format,
+                    $paperback_price
+                );
 
                 if ($product_->is_type('variable')) {
                     $price_carousel = '';
