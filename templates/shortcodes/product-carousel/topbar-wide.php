@@ -109,6 +109,7 @@
             pager: false,
             nextText: ' ',
             prevText: ' ',
+            moveSlides: 2,
             autoReload: true,
             breaks: [{
                 screen: 0,

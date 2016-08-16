@@ -110,6 +110,7 @@
             prevSelector: slider_prev_ID,
             nextText: ' ',
             prevText: ' ',
+            moveSlides: 2,
             autoReload: true,
             breaks: [{
                 screen: 0,
