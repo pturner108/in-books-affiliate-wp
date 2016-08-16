@@ -15,6 +15,7 @@ class Shortcodes {
 
     public static function init() {
         Product_Carousel::register();
+        Product::register();
     }
 
     public static function get_atts($key) {
@@ -26,3 +27,4 @@ class Shortcodes {
  * Requiring all shortcode class
  */
 require_once INC_DIR . 'shortcodes/class-product-carousel.php';
+require_once INC_DIR . 'shortcodes/class-product.php';
