@@ -18,7 +18,21 @@ $product = $options['query'];
 
     echo '<div class="iba-product-cta-wrapper">';
 
-    printf('<div class="iba-product-title">%s</div>', iba_product_title_and_subtitle($product->id));
+    printf('<div class="iba-product-title">%s</div>', get_field('iba_title', $product->id));
+    printf('<div class="iba-product-subtitle">%s</div>', get_field('iba_subtitle', $product->id));
+
+    $contributors = iba_get_product_contributors($product->id);
+
+    if (!empty($contributors)) {
+        $con = '';
+        foreach($contributors as $contributor) {
+            $con .= $contributor['name']. ' (' . $contributor['role'] . '), ';
+        }
+
+        if ($con) {
+            printf('<span class="ps-author">%s</span>', rtrim($con, ', '));
+        }
+    }
 
     $cta_button = '<div class="iba-product-cta-btn"><a class="iba-product-cta-btn-link" href="%s">%s</a></div>';
     printf(
