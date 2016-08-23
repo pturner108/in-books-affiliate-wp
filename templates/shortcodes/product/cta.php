@@ -16,11 +16,15 @@ $product = $options['query'];
         $product->get_image()
     );
 
+    echo '<div class="iba-product-cta-wrapper">';
+
     $cta_button = '<div class="iba-product-cta-btn"><a href="%s">%s</a></div>';
     printf(
         $cta_button,
         $options['atts']['url'],
         $options['atts']['cta']
     );
+
+    echo '</div>';
     ?>
 </div>

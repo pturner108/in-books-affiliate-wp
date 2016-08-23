@@ -16,6 +16,8 @@ $product = $options['query'];
         $product->get_image()
     );
 
+    echo '<div class="iba-product-cta-wrapper">';
+
     printf('<div class="iba-product-title">%s</div>', iba_product_title_and_subtitle($product->id));
 
     $cta_button = '<div class="iba-product-cta-btn"><a class="iba-product-cta-btn-link" href="%s">%s</a></div>';
@@ -24,5 +26,7 @@ $product = $options['query'];
         $options['atts']['url'],
         $options['atts']['cta']
     );
+
+    echo '</div>';
     ?>
 </div>
