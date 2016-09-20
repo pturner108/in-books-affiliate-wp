@@ -13,7 +13,7 @@ $product = $options['query'];
         $anchor,
         $options['atts']['url'],
         iba_product_title_and_subtitle($product->id),
-        $product->get_image()
+        $product->get_image('full')
     );
     ?>
 </div>

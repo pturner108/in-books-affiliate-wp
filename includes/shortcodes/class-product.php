@@ -16,7 +16,7 @@ class Product extends Shortcodes {
      *              minimal: shows only product image.
      *              cta: Shows product image and call to action button. When CTA layout, "cta" parameter can be provided
      *                   to override the default call to action text.
-     *              full: TBD
+     *              full: Shows product image, product title and CTA button
      *      $atts['cta'] string. Optional, Text to display for the CTA button. Default to "LEARN MORE".
      *      $atts['url']: string. Optional, HREF to apply to product and CTA button. Default to product landing page.
      */

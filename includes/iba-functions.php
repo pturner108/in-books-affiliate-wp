@@ -610,3 +610,21 @@ if (!function_exists('iba_update_parent_category_sort_rank')) {
         update_field('iba_parent_category_sort_rank', array_sum($ranks), $post_id);
     }
 }
+
+if (!function_exists('iba_acf_select_label')) {
+    /**
+     * Get ACF Select value
+     *
+     * @param string $key Required.
+     * @param bool $post_id Optional
+     * @return string
+     */
+    function iba_acf_select_label($key, $post_id = false) {
+        $format_object = get_field_object($key, $post_id);
+        $format_object_label = get_field($key, $post_id);
+
+        return $format_object_label && isset($format_object['choices'][$format_object_label])
+            ? $format_object['choices'][$format_object_label]
+            : '';
+    }
+}

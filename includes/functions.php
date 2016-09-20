@@ -102,3 +102,20 @@ function iba_cumulative_rank_event_update(&$page)
     $page++;
     iba_cumulative_rank_event_update($page);
 }
+
+if (!function_exists('mdx_default_post_id')) {
+    /**
+     * Returns the given id, or the current ID
+     *
+     * @param null $post_id
+     * @return false|int|null either the $post_id, or if null, #get_the_ID()
+     */
+    function mdx_default_post_id($post_id = null)
+    {
+        if (empty($post_id)) {
+            return get_the_ID();
+        }
+
+        return $post_id;
+    }
+}
