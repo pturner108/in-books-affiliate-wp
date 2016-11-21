@@ -152,7 +152,7 @@ class Product_Carousel extends Shortcodes {
             $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> ' . $props['header'];
         }
 
-        if ($tag && $category) {
+        if (!$props['header'] && $tag && $category) {
             $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> '
                 . ' in <a href="'.get_category_link($category->term_id).'" class="link-brand">'
                 . $category->name
