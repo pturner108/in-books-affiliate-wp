@@ -2,22 +2,22 @@
 
 <div class="product-carousel <?php echo $options['atts']['skin']; ?>">
     <div class="product-carousel-header">
-
-        <h2 class="carousel-header">
-            <a href="<?php echo __($options['atts']['link_to_caption'], 'iba'); ?>"
-               title="<?php echo esc_html(__($options['atts']['header'], 'iba')); ?>">
-                <?php echo $options['atts']['header']; ?>
-            </a>
-        </h2>
-
-        <div class="view-all-link">
-            <a class="view-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
-                <?php echo __($options['atts']['see_more_caption'], 'iba'); ?>
-            </a>
+		<div class="container">
+            <h2 class="carousel-header">
+                <a href="<?php echo __($options['atts']['link_to_caption'], 'iba'); ?>"
+                   title="<?php echo esc_html(__($options['atts']['header'], 'iba')); ?>">
+                    <?php echo $options['atts']['header']; ?>
+                </a>
+            </h2>
+    
+            <div class="view-all-link">
+                <a class="view-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
+                    <?php echo __($options['atts']['see_more_caption'], 'iba'); ?>
+                </a>
+            </div>
         </div>
-
     </div>
-
+	<div class="relative">
     <div class="bottom-slider b-slider">
         <div class="container">
             <div id="<?php echo $options['atts']['slider_ID']; ?>">
@@ -94,7 +94,8 @@
             </div>
         </div>
     </div>
-
+	</div>
+    
     <div class="view-all-in-slider">
         <div class="button">
         <a href="<?php echo $options['atts']['show_view_button_link']; ?>">
@@ -102,6 +103,7 @@
         </a>
         </div>
     </div>
+    
 </div>
 
 <script language="JavaScript">
@@ -125,36 +127,36 @@
             autoReload: true,
             breaks: [{
                 screen: 0,
-                slides: 3,
+                slides: <?php echo $options['atts']['@0']; ?>,
                 moveSlides: 1,
                 pager: false
             }, {
                 screen: 568,
                 moveSlides: 1,
-                slides: 5
+                slides: <?php echo $options['atts']['@568']; ?>
             }, {
                 screen: 768,
-                slides: 3,
+                slides: <?php echo $options['atts']['@768']; ?>,
                 moveSlides: 2,
                 slideMargin: 30
             }, {
                 screen: 1024,
-                slides: 4,
+                slides: <?php echo $options['atts']['@1024']; ?>,
                 slideMargin: 40,
                 moveSlides: 3
             }, {
                 screen: 1220,
-                slides: 4,
+                slides: <?php echo $options['atts']['@1220']; ?>,
                 slideMargin: 40
             }, {
                 screen: 1440,
-                slides: 5,
+                slides: <?php echo $options['atts']['@1440']; ?>,
                 slideMargin: 50,
                 moveSlides: 4
             },
                 {
                 screen: 1900,
-                slides: 5,
+                slides: <?php echo $options['atts']['@1900']; ?>,
                 slideMargin: 70
             }]
         };

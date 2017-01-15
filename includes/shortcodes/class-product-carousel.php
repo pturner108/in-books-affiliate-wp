@@ -65,7 +65,14 @@ class Product_Carousel extends Shortcodes {
             'see_more_caption' => 'View All',
             'link_to_caption' => '',
             'category_rank' => 1,
-            'show_view_button' => false
+            'show_view_button' => false,
+            '@0' => 3,
+            '@568' => 5,
+            '@768' => 3,
+            '@1024' => 4,
+            '@1220' => 4,
+            '@1440' => 5,
+            '@1900' => 5
         ), $atts);
 
         $args = array(
@@ -152,11 +159,15 @@ class Product_Carousel extends Shortcodes {
             $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> ' . $props['header'];
         }
 
-        if (!$props['header'] && $tag && $category) {
+        if ($tag && $category) {
+            $subtitle = '';
+            if($props['sub_title']) {
+              $subtitle = '<span class="pdc-cat-subtitle">'.$props['sub_title'].'</span>';
+            }
             $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> '
-                . ' in <a href="'.get_category_link($category->term_id).'" class="link-brand">'
+                . ' in <a href="'.get_category_link($category->term_id).'?post_type=product" class="link-brand">'
                 . $category->name
-                . '</a>';
+                . '</a>' . $subtitle;
         }
 
 

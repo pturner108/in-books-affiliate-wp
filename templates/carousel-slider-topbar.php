@@ -4,10 +4,12 @@
 <?php $options = iba_get_shortcodes_atts('product_carousel'); ?>
 
 <div class="product-carousel-header landing-page-heading <?php echo $options['atts']['skin']; ?>">
-    <?php echo '<h2>' . $options['atts']['header'] . '</h2>'; ?>
-    <a class="view-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
-        <?php echo __($options['atts']['see_more_caption'], 'iba'); ?>
-    </a>
+    <div class="container">
+        <?php echo '<h2>' . $options['atts']['header'] . '</h2>'; ?>
+        <a class="view-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
+            <?php echo __($options['atts']['see_more_caption'], 'iba'); ?>
+        </a>
+    </div>
 </div>
 
 <div class="bottom-slider b-slider">

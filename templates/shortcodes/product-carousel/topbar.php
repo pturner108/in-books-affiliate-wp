@@ -4,24 +4,26 @@
 <?php $options = iba_get_shortcodes_atts('product_carousel'); ?>
 
 <div class="product-carousel-header landing-page-heading <?php echo $options['atts']['skin']; ?>">
+    <div class="container">
     <a href="<?php echo $options['atts']['link_to_caption']; ?>">
-        <?php echo '<h2 class="carousel-header">' . $options['atts']['header'] . '</h2>'; ?>
-    </a>
-
-    <?php
-    /**
-     * Display additional linkable header for mobile
-     */
-    printf(
-        '<h2 class="carousel-link-header"><a href="%1$s" title="%2$s">%2$s</a></h2>',
-        $options['atts']['link_to_caption'],
-        $options['atts']['header']
-    );
-    ?>
-
-    <a class="view-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
-        <?php echo __($options['atts']['see_more_caption'], 'iba'); ?>
-    </a>
+			<?php echo '<h2 class="carousel-header">' . $options['atts']['header'] . '</h2>'; ?>
+        </a>
+    
+        <?php
+        /**
+         * Display additional linkable header for mobile
+         */
+        printf(
+            '<h2 class="carousel-link-header"><a href="%1$s" title="%2$s">%2$s</a></h2>',
+            $options['atts']['link_to_caption'],
+            $options['atts']['header']
+        );
+        ?>
+    
+        <a class="view-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
+            <?php echo __($options['atts']['see_more_caption'], 'iba'); ?>
+        </a>
+    </div>
 </div>
 
 <div class="bottom-slider b-slider">
