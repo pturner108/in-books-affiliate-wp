@@ -9,7 +9,8 @@ namespace IBA;
 class Metaboxes {
     public static function init() {
         if (is_admin()) {
-            add_action('add_meta_boxes', array(__CLASS__, 'meta_box_related_init'));
+            // disable related meta boxes due to performance issues
+//            add_action('add_meta_boxes', array(__CLASS__, 'meta_box_related_init'));
         }
 
         add_action('p2p_init', array(__CLASS__, 'set_p2p_relationships'));
