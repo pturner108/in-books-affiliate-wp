@@ -193,29 +193,24 @@ class Product_Carousel extends Shortcodes {
      * @return mixed
      */
     private static function compose_header($props, $category, $tag) {
+
+        // custom header provided, add subtitle and wrap header
         if (!empty($props['header'])) {
             return $props;
         }
 
-        if (!$props['header'] && $category) {
+        if ($category) {
             $props['header'] = $category->name;
-        } else if (!$props['header'] && $tag) {
-            $props['header'] = $tag->name;
-        } else if ($props['header'] && $tag) {
+        } else if ($tag) {
             $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> ' . $props['header'];
         }
 
         if ($tag && $category) {
-            $subtitle = '';
-            if ($props['sub_title']) {
-                $subtitle = '<span class="pdc-cat-subtitle">' . $props['sub_title'] . '</span>';
-            }
-            $props['header'] = '<span class="iba-product-carousel-header">'
-                . '<span class="pdc-tag">' . $tag->name . '</span> '
+
+            $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span>'
                 . ' in '
                 . '<span class="pdc-category">' . $category->name . '</span>'
-                . $subtitle
-                . '</span>';
+                ;
 
             $props['html_title'] = $tag->name . ' in ' . $category->name;
             return $props;
