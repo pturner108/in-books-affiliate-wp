@@ -29,27 +29,6 @@ class Product_Carousel extends Shortcodes {
         echo self::configure($atts);
     }
 
-    public static function register() {
-        add_shortcode('iba_product_carousel', array(__CLASS__, 'configure'));
-        add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
-    }
-
-    public static function enqueue_scripts() {
-        wp_enqueue_style(
-            'bx-slider',
-            \IBA\ASSETS_URI . '/css/jquery.bxslider.css',
-            array(),
-            Main::VERSION
-        );
-
-        wp_enqueue_script(
-            'rahisified-bxslider',
-            \IBA\ASSETS_URI . '/js/jquery.bxslider-rahisified.js',
-            array('jquery'),
-            Main::VERSION
-        );
-    }
-
     /**
      * @param $atts array
      * @return string
@@ -118,8 +97,8 @@ class Product_Carousel extends Shortcodes {
         if ($props['tag']) {
             $args['tax_query'][] = array(
                 'taxonomy' => 'product_tag',
-                'field'    => 'slug',
-                'terms'    => $props['tag']
+                'field' => 'slug',
+                'terms' => $props['tag']
             );
 
             $tag = get_term_by('slug', $props['tag'], 'product_tag');
@@ -164,13 +143,14 @@ class Product_Carousel extends Shortcodes {
 
         if ($tag && $category) {
             $subtitle = '';
-            if($props['sub_title']) {
-              $subtitle = '<span class="pdc-cat-subtitle">'.$props['sub_title'].'</span>';
+            if ($props['sub_title']) {
+                $subtitle = '<span class="pdc-cat-subtitle">' . $props['sub_title'] . '</span>';
             }
-            $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> '
-                . ' in <a href="'.get_category_link($category->term_id).'?post_type=product" class="link-brand">'
+            $props['header'] = '<span class="iba-product-carousel-header"><span class="pdc-tag">' . $tag->name . '</span> '
+                . ' in '
                 . $category->name
-                . '</a>' . $subtitle;
+                . $subtitle
+                . '</span>';
 
             $props['html_title'] = $tag->name . ' in ' . $category->name;
         }
@@ -202,5 +182,26 @@ class Product_Carousel extends Shortcodes {
         }
 
         return '';
+    }
+
+    public static function register() {
+        add_shortcode('iba_product_carousel', array(__CLASS__, 'configure'));
+        add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
+    }
+
+    public static function enqueue_scripts() {
+        wp_enqueue_style(
+            'bx-slider',
+            \IBA\ASSETS_URI . '/css/jquery.bxslider.css',
+            array(),
+            Main::VERSION
+        );
+
+        wp_enqueue_script(
+            'rahisified-bxslider',
+            \IBA\ASSETS_URI . '/js/jquery.bxslider-rahisified.js',
+            array('jquery'),
+            Main::VERSION
+        );
     }
 }
