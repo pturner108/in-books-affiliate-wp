@@ -4,8 +4,8 @@
     <div class="product-carousel-header">
 		<div class="container">
             <h2 class="carousel-header">
-                <a href="<?php echo __($options['atts']['link_to_caption'], 'iba'); ?>"
-                   title="<?php echo esc_html(__($options['atts']['header'], 'iba')); ?>">
+                <a href="<?php echo __($options['atts']['url'], 'iba'); ?>"
+                   title="<?php echo esc_html(__($options['atts']['html_title'], 'iba')); ?>">
                     <?php echo $options['atts']['header']; ?>
                 </a>
             </h2>

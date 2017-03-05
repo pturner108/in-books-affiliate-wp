@@ -18,10 +18,10 @@ class Product_Carousel extends Shortcodes {
      *          1. topbar (Default)
      *          2. topbar-wide
      *          3. naked (Not yet implemented)
-     *      $atts['header'] string. Optional, Defaults to category name
+     *      $atts['header'] string. Optional, Text to use for carousel heading
      *      $atts['sub_title'] string. Optional, Subtitle for topbar-wide template (useful for two row headers)
      *      $atts['see_more_caption'] string. Optional, Defaults to 'View All' will point to target category page
-     *      $atts['link_to_caption'] string. Optional, Defaults links to category
+     *      $atts['url'] string. Optional, where the carousel heading links to
      *      $atts['category_rank'] string|int. Optional, Defaults to 1, category must be define
      *      $atts['show_view_button'] bool. Optional, Defaults to false, tag must be define, only support naked skin
      */
@@ -63,7 +63,7 @@ class Product_Carousel extends Shortcodes {
             'header' => '',
             'sub_title' => '',
             'see_more_caption' => 'View All',
-            'link_to_caption' => '',
+            'url' => '',
             'category_rank' => 1,
             'show_view_button' => false,
             '@0' => 3,
@@ -145,10 +145,13 @@ class Product_Carousel extends Shortcodes {
 
         if ($category) {
             $props['cat_name'] = $category->name;
+            $props['html_title'] = $category->name;
         }
 
         if ($tag) {
             $props['tag_name'] = $tag->name;
+            $props['html_title'] = $tag->name;
+
         }
 
         if (!$props['header'] && $category) {
@@ -168,19 +171,19 @@ class Product_Carousel extends Shortcodes {
                 . ' in <a href="'.get_category_link($category->term_id).'?post_type=product" class="link-brand">'
                 . $category->name
                 . '</a>' . $subtitle;
+
+            $props['html_title'] = $tag->name . ' in ' . $category->name;
         }
 
 
-        if (!$props['link_to_caption'] && $category) {
-            $props['link_to_caption'] = get_category_link($category->term_id);
+        if (!$props['url'] && $category) {
+            $props['url'] = get_category_link($category->term_id);
         }
 
-        if (!$props['link_to_caption'] && $tag) {
+        if (!$props['url'] && $tag) {
             $term_link = get_term_link($tag, 'product_tag');
-            if (!is_wp_error($term_link)) $props['link_to_caption'] = $term_link;
+            if (!is_wp_error($term_link)) $props['url'] = $term_link;
         }
-
-        $path_format = \IBA\TEMPLATE_DIR . "shortcodes/product-carousel/%s.php";
 
         // Generate unique identifiers for slider, slider > next, slider > prev, required by bxslider
         $props['slider_ID'] = uniqid('carousel-slider-');
@@ -192,7 +195,7 @@ class Product_Carousel extends Shortcodes {
             'query' => $carousel_query
         );
 
-        $template = sprintf($path_format, 'product-carousel');
+        $template = \IBA\TEMPLATE_DIR . "shortcodes/product-carousel.php";
 
         if (file_exists($template)) {
             return return_include($template);
