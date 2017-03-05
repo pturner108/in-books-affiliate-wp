@@ -20,7 +20,7 @@
         <?php } ?>
 
       <div class="view-all-link">
-        <a class="view-all" href="<?php echo $options['atts']['link_to_caption']; ?>">
+        <a class="view-all" href="<?php echo $options['atts']['url']; ?>">
             <?php echo __($options['atts']['see_more_caption'], 'iba'); ?>
         </a>
       </div>
