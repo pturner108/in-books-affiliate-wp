@@ -164,6 +164,44 @@ class Product_Carousel extends Shortcodes {
         return '';
     }
 
+    /**
+     * Returns the proper header to use for the tag
+     * @param $props
+     * @param $category
+     * @param $tag
+     * @return mixed
+     */
+    private static function compose_header($props, $category, $tag) {
+
+        // custom header provided, add subtitle and wrap header
+        if (!empty($props['header'])) {
+            $props['html_title'] = $props['header'];
+            return $props;
+        }
+
+        $cat_html = '';
+        $tag_html = '';
+
+        if ($category) {
+            $cat_html = '<span class="pdc-category">' . $category->name . '</span>';
+            $props['header'] = $cat_html;
+            $props['html_title'] = $category->name;
+        }
+
+        if ($tag) {
+            $tag_html = '<span class="pdc-tag">' . $tag->name . '</span>';
+            $props['header'] = $tag_html;
+            $props['html_title'] = $tag->name;
+        }
+
+        if ($tag && $category) {
+            $props['header'] = $tag_html . ' in ' . $cat_html;
+            $props['html_title'] = $tag->name . ' in ' . $category->name;
+        }
+
+        return $props;
+    }
+
     public static function register() {
         add_shortcode('iba_product_carousel', array(__CLASS__, 'configure'));
         add_action('wp_enqueue_scripts', array(__CLASS__, 'enqueue_scripts'));
@@ -183,38 +221,5 @@ class Product_Carousel extends Shortcodes {
             array('jquery'),
             Main::VERSION
         );
-    }
-
-    /**
-     * Returns the proper header to use for the tag
-     * @param $props
-     * @param $category
-     * @param $tag
-     * @return mixed
-     */
-    private static function compose_header($props, $category, $tag) {
-
-        // custom header provided, add subtitle and wrap header
-        if (!empty($props['header'])) {
-            return $props;
-        }
-
-        if ($category) {
-            $props['header'] = $category->name;
-        } else if ($tag) {
-            $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span> ' . $props['header'];
-        }
-
-        if ($tag && $category) {
-
-            $props['header'] = '<span class="pdc-tag">' . $tag->name . '</span>'
-                . ' in '
-                . '<span class="pdc-category">' . $category->name . '</span>'
-                ;
-
-            $props['html_title'] = $tag->name . ' in ' . $category->name;
-            return $props;
-        }
-        return $props;
     }
 }
