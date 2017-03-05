@@ -122,28 +122,9 @@ class Product_Carousel extends Shortcodes {
             return '';
         }
 
-        if ($category) {
-            $props['cat_name'] = $category->name;
-            $props['html_title'] = $category->name;
-        }
-
-        if ($tag) {
-            $props['tag_name'] = $tag->name;
-            $props['html_title'] = $tag->name;
-
-        }
 
         $props = self::compose_header($props, $category, $tag);
-
-
-        if (!$props['url'] && $category) {
-            $props['url'] = get_category_link($category->term_id);
-        }
-
-        if (!$props['url'] && $tag) {
-            $term_link = get_term_link($tag, 'product_tag');
-            if (!is_wp_error($term_link)) $props['url'] = $term_link;
-        }
+        $props = self::compose_url($props, $category, $tag);
 
         // Generate unique identifiers for slider, slider > next, slider > prev, required by bxslider
         $props['slider_ID'] = uniqid('carousel-slider-');
@@ -221,5 +202,39 @@ class Product_Carousel extends Shortcodes {
             array('jquery'),
             Main::VERSION
         );
+    }
+
+    /**
+     * Composes the URL to be used when header is clicked
+     *
+     * @param $props
+     * @param $category
+     * @param $tag
+     * @return mixed
+     */
+    private static function compose_url($props, $category, $tag) {
+
+        // use custom URL if provided
+        if (!empty($props['url'])) {
+            return $props;
+        }
+
+        // if category and tag present, use tags with category specification
+        if($tag && $category) {
+            $props['url'] = get_term_link($tag, 'product_tag') . '?category=' . $category->slug;
+
+            return $props;
+        }
+
+        if ($category) {
+            $props['url'] = get_category_link($category->term_id);
+            return $props;
+        }
+
+        if ($tag) {
+            $term_link = get_term_link($tag, 'product_tag');
+            if (!is_wp_error($term_link)) $props['url'] = $term_link;
+        }
+        return $props;
     }
 }
