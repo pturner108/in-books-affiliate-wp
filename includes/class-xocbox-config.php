@@ -31,7 +31,7 @@ class XocboxConfig {
                 $xocbox_order_availability = "unknown";
             }
 
-            echo "<div><strong>item availability: $xocbox_order_availability<strong></div>";
+            echo "<div><strong>AFTER item availability: $xocbox_order_availability<strong></div>";
 
 
             if($xocbox_order_availability == 'available'){
