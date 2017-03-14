@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Inbooks Affiliate
- * Version: 1.0.0
- * Author: Joshua Jacobs, josh@mandala-designs.com, rahilwazir
+ * Version: 1.0.1
+ * Author: Joshua Jacobs, josh@mandala-designs.com
  * Author URI: http://dharmaspring.com
  * Text Domain: iba
  * License: GPLv2 or later
